@@ -1,0 +1,13 @@
+# General Editor and OS Files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Other common ignores
+logs/
+*.log
+
+data/
