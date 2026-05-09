@@ -1,6 +1,6 @@
-# AI Experiments
+# Data Experiments
 
-This repository is a collection of various AI experiments, proof-of-concepts, and tools.
+This repository is a collection of various Data experiments, proof-of-concepts, and tools.
 
 ## Structure
 
