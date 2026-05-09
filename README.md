@@ -9,8 +9,3 @@ Each subdirectory within this repository is a self-contained experiment. Experim
 ### Current Experiments
 
 - **[sql search](./sql%20search/)**: A Node.js/TypeScript benchmark testing SQLite search performance on 100M rows, comparing standard B-tree indexes against FTS5 Trigram indexes for exact matches and `LIKE` substring queries.
-
-## Workflow
-
-- **Global vs Local `.gitignore`**: There is a global `.gitignore` in the root for OS and editor files. Each experiment folder should have its own specific `.gitignore` tailored to its language (e.g., Node/TypeScript, Python, Go, Rust).
-- **Adding a new experiment**: Simply create a new folder and start building. Remember to initialize any language-specific package management inside that directory.
