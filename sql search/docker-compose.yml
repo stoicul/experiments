@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   sql-search:
     build: .
@@ -12,3 +10,7 @@ services:
     environment:
       # Optional: Explicitly tell the script where to store the database
       - DB_FILE=data/events.db
+    # To run with specific parameters, you can pass arguments via docker-compose run:
+    # docker-compose run --rm sql-search --rows 100000 --batch 50000
+    # Or you can uncomment the command below to set a default for docker-compose up:
+    # command: ["--rows", "100000"]

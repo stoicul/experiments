@@ -5,8 +5,29 @@ import { dirname } from 'node:path';
 type SqliteDatabase = InstanceType<typeof Database>;
 
 const DB_FILE = process.env.DB_FILE ?? 'data/events.db';
-const TARGET_ROWS = readPositiveIntegerEnv('TARGET_ROWS', 1_000_000);
-const BATCH_SIZE = readPositiveIntegerEnv('BATCH_SIZE', 100_000);
+
+function parseArgs() {
+    const args = process.argv.slice(2);
+    let targetRows = readPositiveIntegerEnv('TARGET_ROWS', 1_000_000);
+    let batchSize = readPositiveIntegerEnv('BATCH_SIZE', 100_000);
+
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] === '--rows' && i + 1 < args.length) {
+            const val = parseInt(args[i + 1], 10);
+            if (!Number.isFinite(val) || val <= 0) throw new Error(`--rows must be a positive integer`);
+            targetRows = val;
+            i++;
+        } else if (args[i] === '--batch' && i + 1 < args.length) {
+            const val = parseInt(args[i + 1], 10);
+            if (!Number.isFinite(val) || val <= 0) throw new Error(`--batch must be a positive integer`);
+            batchSize = val;
+            i++;
+        }
+    }
+    return { targetRows, batchSize };
+}
+
+const { targetRows: TARGET_ROWS, batchSize: BATCH_SIZE } = parseArgs();
 
 function readPositiveIntegerEnv(name: string, defaultValue: number) {
     const rawValue = process.env[name];

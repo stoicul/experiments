@@ -24,13 +24,38 @@ npm install
 
 ## Run
 
+You can run the benchmark natively with Node or via Docker Compose.
+
+### Natively
+
 ```bash
 npm start
 ```
 
-By default, the benchmark writes to `data/events.db` and targets `1,000,000` rows in batches of `100,000`.
+### Docker
 
-You can override those values with environment variables:
+```bash
+# Build and run the default container
+docker-compose up --build
+```
+
+## Configuration
+
+By default, the benchmark writes to `data/events.db` and targets `1,000,000` rows in batches of `100,000`. You can override these using CLI arguments or environment variables.
+
+### CLI Arguments
+
+```bash
+npm start -- --rows 100000 --batch 50000
+```
+
+With Docker:
+
+```bash
+docker-compose run --rm sql-search --rows 100000 --batch 50000
+```
+
+### Environment Variables
 
 ```bash
 TARGET_ROWS=10000000 BATCH_SIZE=250000 DB_FILE=data/events.db npm start
