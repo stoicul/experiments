@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  sql-search:
+    build: .
+    container_name: sql-search-run
+    # Keep the container from restarting automatically since it's a one-off script
+    restart: "no" 
+    volumes:
+      # Map the local data folder to the container's /app/data folder
+      - ./data:/app/data
+    environment:
+      # Optional: Explicitly tell the script where to store the database
+      - DB_FILE=data/events.db
