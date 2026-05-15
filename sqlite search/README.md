@@ -1,10 +1,9 @@
-# SQL Search Benchmark
+# SQLite Search Benchmark
 
 A small TypeScript benchmark for comparing SQLite search strategies over synthetic event data:
 
-- exact-match filtering on a regular table
-- `LIKE` prefix and contains searches before indexing
-- B-tree indexes on `provider` and `label`
+- exact-match and `LIKE` prefix/contains searches before indexing
+- B-tree indexes on the `label` column
 - SQLite FTS5 with the `trigram` tokenizer for contains-style searches
 
 The script creates a local SQLite database, fills it with generated rows, builds indexes, and prints timing results for each query style.
@@ -49,11 +48,35 @@ By default, the benchmark writes to `data/events.db` and targets `1,000,000` row
 npm start -- --rows 100000 --batch 50000
 ```
 
+To wipe the existing database and force a fresh import:
+
+```bash
+npm start -- --force-import
+```
+
 With Docker:
 
 ```bash
-docker-compose run --rm sql-search --rows 100000 --batch 50000
+docker-compose run --rm sqlite-search --rows 100000 --batch 50000 --force-import
 ```
+
+## Statistics Example (100,000 Rows)
+
+Below are sample results from querying a 100,000-row database on the `label` column (indexed) and `label_unindexed` column (full table scan), comparing SQLite's B-Tree vs FTS5 Trigram performance.
+
+| Test | Query Type | Match Frequency | Index Type | Query Time (ms) |
+| --- | --- | --- | --- | --- |
+| 1 | Starts With | Frequent (1,000) | No Index | 1,093 ms |
+| 2 | Contains | Common (100,000) | No Index | 1,133 ms |
+| 3 | Contains | Frequent (1,000) | No Index | 1,116 ms |
+| 4 | Contains | Rare (1) | No Index | 1,064 ms |
+| 5 | Starts With | Frequent (1,000) | B-Tree Index | 7 ms |
+| 6 | Contains | Common (100,000) | B-Tree Index | 603 ms |
+| 7 | Contains | Frequent (1,000) | B-Tree Index | 14 ms |
+| 8 | Contains | Rare (1) | B-Tree Index | 16 ms |
+| 9 | MATCH (Contains) | Common (100,000) | FTS5 Trigram | 283 ms |
+| 10 | MATCH (Contains) | Frequent (1,000) | FTS5 Trigram | 213 ms |
+| 11 | MATCH (Contains) | Rare (1) | FTS5 Trigram | 25 ms |
 
 ### Environment Variables
 

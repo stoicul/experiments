@@ -8,4 +8,5 @@ Each subdirectory within this repository is a self-contained experiment. Experim
 
 ### Current Experiments
 
-- **[sql search](./sql%20search/)**: A Node.js/TypeScript benchmark testing SQLite search performance on 100M rows, comparing standard B-tree indexes against FTS5 Trigram indexes for exact matches and `LIKE` substring queries.
+- **[sqlite search](./sqlite%20search/)**: A Node.js/TypeScript benchmark testing SQLite search performance on 100M rows, comparing standard B-tree indexes against FTS5 Trigram indexes for exact matches and `LIKE` substring queries.
+- **[typesense search](./typesense%20search/)**: A Node.js/TypeScript benchmark testing Typesense search performance on 100M rows via Docker, comparing exact match, prefix, and infix string queries.

@@ -1,5 +1,5 @@
 {
-  "name": "sql-search",
+  "name": "sqlite-search",
   "version": "1.0.0",
   "description": "SQLite search benchmark comparing LIKE queries, regular indexes, and FTS5 trigram search.",
   "main": "index.ts",

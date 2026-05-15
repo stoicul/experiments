@@ -1,0 +1,21 @@
+{
+  "name": "typesense-search",
+  "version": "1.0.0",
+  "description": "Typesense search benchmark.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "typesense": "^1.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  typesense:
+    image: typesense/typesense:26.0
+    container_name: typesense-db
+    restart: "no"
+    environment:
+      - TYPESENSE_DATA_DIR=/data
+      - TYPESENSE_API_KEY=test-api-key
+      - TYPESENSE_ENABLE_CORS=true
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./data/typesense-data:/data
+
+  benchmark:
+    build: .
+    container_name: typesense-benchmark
+    restart: "no"
+    depends_on:
+      - typesense
+    volumes:
+      - ./data:/app/data
+    environment:
+      - TYPESENSE_API_KEY=test-api-key
+      - TYPESENSE_HOST=typesense
+      - TYPESENSE_PORT=8108
