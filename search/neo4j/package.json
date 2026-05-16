@@ -1,0 +1,29 @@
+{
+  "name": "neo4j-search",
+  "version": "1.0.0",
+  "description": "Neo4j search benchmark comparing Cypher queries, range indexes, and full-text search.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "neo4j",
+    "graph",
+    "search",
+    "benchmark"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "neo4j-driver": "^5.28.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

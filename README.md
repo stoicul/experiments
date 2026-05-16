@@ -14,3 +14,5 @@ The following search-related experiments are located in the `search/` directory:
 - **[typesense](./search/typesense/)**: A Node.js/TypeScript benchmark testing Typesense search performance on 100M rows via Docker, comparing exact match, prefix, and infix string queries.
 - **[duckdb](./search/duckdb/)**: A Node.js/TypeScript benchmark testing DuckDB search performance using the modern `@duckdb/node-api` (Neo) client, evaluating columnar scans and FTS extension.
 - **[opensearch](./search/opensearch/)**: A Node.js/TypeScript benchmark testing OpenSearch performance via Docker, evaluating prefix, match phrase, and wildcard searches on log-style data.
+- **[neo4j](./search/neo4j/)**: A Node.js/TypeScript benchmark testing Neo4j search performance via Docker, comparing Cypher queries, range indexes, and full-text search (Lucene).
+
