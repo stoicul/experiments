@@ -1,0 +1,30 @@
+{
+  "name": "postgresql-search",
+  "version": "1.0.0",
+  "description": "PostgreSQL search benchmark comparing LIKE queries, regular indexes, and GIN trigram search.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "postgresql",
+    "pg_trgm",
+    "search",
+    "benchmark"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.13.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/pg": "^8.11.11",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}
