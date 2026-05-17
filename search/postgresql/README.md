@@ -16,6 +16,6 @@ Benchmarking PostgreSQL search performance using:
 ## Configuration
 
 Environment variables:
-- `TARGET_ROWS`: Total number of rows to insert (default: 1,000,000)
+- `TARGET_ROWS`: Total number of rows to insert (default: 2,000,000)
 - `BATCH_SIZE`: Number of rows per batch insert (default: 10,000)
 - `FORCE_IMPORT`: Set to `true` to clear existing data and re-import.

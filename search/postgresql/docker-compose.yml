@@ -32,6 +32,6 @@ services:
       - PGUSER=postgres
       - PGPASSWORD=postgres
       - PGDATABASE=search_bench
-      - TARGET_ROWS=${TARGET_ROWS:-1000000}
+      - TARGET_ROWS=${TARGET_ROWS:-2000000}
       - BATCH_SIZE=${BATCH_SIZE:-10000}
       - FORCE_IMPORT=${FORCE_IMPORT:-false}

@@ -40,7 +40,7 @@ docker-compose up --build
 
 ## Configuration
 
-By default, the benchmark writes to `data/events.db` and targets `1,000,000` rows in batches of `100,000`. You can override these using CLI arguments or environment variables.
+By default, the benchmark writes to `data/events.db` and targets `2,000,000` rows in batches of `100,000`. You can override these using CLI arguments or environment variables.
 
 ### CLI Arguments
 
@@ -81,13 +81,13 @@ Below are sample results from querying a 100,000-row database on the `label` col
 ### Environment Variables
 
 ```bash
-TARGET_ROWS=10000000 BATCH_SIZE=250000 DB_FILE=data/events.db npm start
+TARGET_ROWS=2000000 BATCH_SIZE=250000 DB_FILE=data/events.db npm start
 ```
 
 PowerShell example:
 
 ```powershell
-$env:TARGET_ROWS = "10000000"
+$env:TARGET_ROWS = "2000000"
 $env:BATCH_SIZE = "250000"
 $env:DB_FILE = "data/events.db"
 npm start

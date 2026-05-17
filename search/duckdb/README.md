@@ -41,7 +41,7 @@ docker-compose run --rm duckdb-search --rows 100000 --batch 50000 --force-import
 
 ### Configuration
 
-By default, the benchmark targets `100,000,000` rows in batches of `100,000`. You can override these using CLI arguments or environment variables.
+By default, the benchmark targets `2,000,000` rows in batches of `100,000`. You can override these using CLI arguments or environment variables.
 
 #### CLI Arguments
 
@@ -58,7 +58,7 @@ npm start -- --force-import
 #### Environment Variables
 
 ```bash
-TARGET_ROWS=10000000 BATCH_SIZE=250000 DB_FILE=data/events.duckdb npm start
+TARGET_ROWS=2000000 BATCH_SIZE=250000 DB_FILE=data/events.duckdb npm start
 ```
 
 ## Scripts

@@ -26,7 +26,7 @@ const stats: BenchmarkStats = {
 
 function parseArgs() {
     const args = process.argv.slice(2);
-    let targetRows = readPositiveIntegerEnv('TARGET_ROWS', 100_000_000);
+    let targetRows = readPositiveIntegerEnv('TARGET_ROWS', 2_000_000);
     let batchSize = readPositiveIntegerEnv('BATCH_SIZE', 100_000);
     let forceImport = false;
 

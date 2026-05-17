@@ -24,6 +24,6 @@ services:
       - TYPESENSE_API_KEY=test-api-key
       - TYPESENSE_HOST=typesense
       - TYPESENSE_PORT=8108
-      - TARGET_ROWS=${TARGET_ROWS:-1000000}
+      - TARGET_ROWS=${TARGET_ROWS:-2000000}
       - BATCH_SIZE=${BATCH_SIZE:-100000}
       - FORCE_IMPORT=${FORCE_IMPORT:-false}

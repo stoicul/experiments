@@ -26,7 +26,7 @@ const stats: BenchmarkStats = {
 
 function parseArgs() {
     const args = process.argv.slice(2);
-    let targetRows = parseInt(process.env.TARGET_ROWS ?? '1000000', 10); // Default to 1M for OpenSearch locally
+    let targetRows = parseInt(process.env.TARGET_ROWS ?? '2000000', 10); // Default to 2M for OpenSearch locally
     let batchSize = parseInt(process.env.BATCH_SIZE ?? '5000', 10);
     let forceImport = false;
 

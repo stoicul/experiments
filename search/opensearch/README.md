@@ -13,7 +13,7 @@ This experiment benchmarks OpenSearch performance for log-style data, similar to
 ## Experiment Details
 
 - **Data Structure**: `id`, `label` (Text with Keyword sub-field), `label_unindexed` (Keyword, not indexed).
-- **Target Rows**: 1,000,000 (configurable via `TARGET_ROWS` env var).
+- **Target Rows**: 2,000,000 (configurable via `TARGET_ROWS` env var).
 - **Queries**:
     - Prefix search on `label.keyword`.
     - `match_phrase` on `label`.
@@ -23,6 +23,6 @@ This experiment benchmarks OpenSearch performance for log-style data, similar to
 
 You can customize the experiment using environment variables in `docker-compose.yml`:
 
-- `TARGET_ROWS`: Total number of rows to index (default: 1,000,000).
+- `TARGET_ROWS`: Total number of rows to index (default: 2,000,000).
 - `BATCH_SIZE`: Number of rows per bulk request (default: 5,000).
 - `OPENSEARCH_JAVA_OPTS`: JVM heap settings for OpenSearch.

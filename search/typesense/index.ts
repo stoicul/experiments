@@ -25,7 +25,7 @@ const stats: BenchmarkStats = {
 
 function parseArgs() {
     const args = process.argv.slice(2);
-    let targetRows = readPositiveIntegerEnv('TARGET_ROWS', 8_000_000);
+    let targetRows = readPositiveIntegerEnv('TARGET_ROWS', 2_000_000);
     let batchSize = readPositiveIntegerEnv('BATCH_SIZE', 10_000); // Typesense imports are typically batched much smaller than SQLite
     let forceImport = false;
 

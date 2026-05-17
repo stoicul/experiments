@@ -33,7 +33,7 @@ function readPositiveIntegerEnv(name: string, defaultValue: number) {
     return value;
 }
 
-const TARGET_ROWS = readPositiveIntegerEnv('TARGET_ROWS', 1_000_000);
+const TARGET_ROWS = readPositiveIntegerEnv('TARGET_ROWS', 2_000_000);
 const BATCH_SIZE = readPositiveIntegerEnv('BATCH_SIZE', 10_000);
 const FORCE_IMPORT = process.env.FORCE_IMPORT === 'true';
 
