@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20-slim
 
 WORKDIR /app
 
@@ -14,5 +14,4 @@ COPY . .
 # Explicitly create the data directory inside the container
 RUN mkdir -p data
 
-# Use ENTRYPOINT so that command line arguments are appended to the script
-ENTRYPOINT ["npm", "start", "--"]
+CMD ["npm", "start"]

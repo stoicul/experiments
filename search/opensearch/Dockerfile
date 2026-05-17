@@ -8,4 +8,4 @@ RUN npm install
 COPY . .
 RUN npm run build || true
 
-CMD ["npx", "ts-node", "index.ts"]
+CMD ["npm", "start"]

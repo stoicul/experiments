@@ -1,14 +1,12 @@
 services:
-  duckdb-search:
+  benchmark:
     build: .
-    container_name: duckdb-search-run
-    # Keep the container from restarting automatically since it's a one-off script
+    container_name: duckdb-benchmark
     restart: "no" 
     volumes:
-      # Map the local data folder to the container's /app/data folder
       - ./data:/app/data
     environment:
-      # Optional: Explicitly tell the script where to store the database
       - DB_FILE=data/events.duckdb
-    # To run with specific parameters, you can pass arguments via docker run:
-    # docker-compose run --rm duckdb-search --rows 100000 --batch 50000
+      - TARGET_ROWS=${TARGET_ROWS:-1000000}
+      - BATCH_SIZE=${BATCH_SIZE:-100000}
+      - FORCE_IMPORT=${FORCE_IMPORT:-false}

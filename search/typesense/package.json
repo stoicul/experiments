@@ -5,7 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "start": "tsx index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "benchmark": "docker-compose up --build benchmark",
+    "db:up": "docker-compose up -d typesense",
+    "db:down": "docker-compose down -v"
   },
   "engines": {
     "node": ">=20"

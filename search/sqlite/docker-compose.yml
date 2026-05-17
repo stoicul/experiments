@@ -1,16 +1,12 @@
 services:
-  sqlite-search:
+  benchmark:
     build: .
-    container_name: sqlite-search-run
-    # Keep the container from restarting automatically since it's a one-off script
+    container_name: sqlite-benchmark
     restart: "no" 
     volumes:
-      # Map the local data folder to the container's /app/data folder
       - ./data:/app/data
     environment:
-      # Optional: Explicitly tell the script where to store the database
       - DB_FILE=data/events.db
-    # To run with specific parameters, you can pass arguments via docker-compose run:
-    # docker-compose run --rm sqlite-search --rows 100000 --batch 50000
-    # Or you can uncomment the command below to set a default for docker-compose up:
-    # command: ["--rows", "100000"]
+      - TARGET_ROWS=${TARGET_ROWS:-1000000}
+      - BATCH_SIZE=${BATCH_SIZE:-100000}
+      - FORCE_IMPORT=${FORCE_IMPORT:-false}
