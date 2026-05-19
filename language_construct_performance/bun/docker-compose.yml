@@ -4,7 +4,8 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-    command: bun run ${SCRIPT_NAME:-plain_vs_value_obj_fixed_properties.ts}
+    entrypoint: [ "bun", "run" ]
+    command: [ "start" ]
     environment:
       - NUM_ENTRIES=${NUM_ENTRIES:-10000000}
     deploy:

@@ -3,7 +3,14 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run index.ts"
+    "start": "bun run scripts/run_all.ts",
+    "benchmark:fixed:plain": "bun run scripts/plain_obj_fixed_properties.ts",
+    "benchmark:fixed:strict": "bun run scripts/value_obj_fixed_properties.ts",
+    "benchmark:fixed:minimal": "bun run scripts/value_obj_minimal_fixed_properties.ts",
+    "benchmark:variable:plain": "bun run scripts/plane_obj_variable_properties.ts",
+    "benchmark:variable:strict": "bun run scripts/value_obj_variable_properties.ts",
+    "benchmark:variable:minimal": "bun run scripts/value_obj_minimal_variable_properties.ts",
+    "benchmark:all": "bun run scripts/run_all.ts"
   },
   "devDependencies": {
     "bun-types": "latest"

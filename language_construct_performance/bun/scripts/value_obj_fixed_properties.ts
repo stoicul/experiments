@@ -1,9 +1,9 @@
-import { writeFileSync, mkdirSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from "fs";
 import { join } from "path";
 
-const NUM_ENTRIES = parseInt(process.env.NUM_ENTRIES || "10000000", 10);
+const NUM_ENTRIES = parseInt(process.env.NUM_ENTRIES || "20000000", 10);
 
-// --- STRICT CLASSES ---
+// --- VALUE OBJECT CLASSES ---
 
 class AgSType {
   t: number;
@@ -72,7 +72,7 @@ class DetailsType {
   }
 }
 
-class StrictNode {
+class ValueObjectNode {
   label: string;
   id: string;
   edgeTo: string[];
@@ -90,48 +90,8 @@ class StrictNode {
 
 // --- FACTORIES ---
 
-function createPlainObject(index: number) {
-  return {
-    label: "user-dev-test-" + index,
-    id: "u." + (16406 + index),
-    edgeTo: ["r.392", "r.40", "r.41", "update", "administrator", "create", "delete", "read"],
-    accessTo: ["s.[s3].UACDR", "a.[s3].DARC", "s.[secretsmanager].RACDU", "s.[dynamodb].RCDAU"],
-    details: {
-      provider: "aws",
-      accountId: "568709751681",
-      principal: true,
-      tags: ["aKIAYI2NaRQPOT", "dev testing local"],
-      mfas: "",
-      la: 1772454942 + (index % 1000),
-      ut: 2,
-      s: 1,
-      cpd: 0,
-      pcb: "-",
-      lld: 0,
-      cd: 1763097939000,
-      cb: "-",
-      ub: "-",
-      ud: 0,
-      ua: 1772526871591,
-      ag: {
-        s: {
-          t: 167
-        },
-        a: {
-          t: 3187978,
-          s: {
-            t: 3187978,
-            s: 3149311,
-            r: 42506
-          }
-        }
-      }
-    }
-  };
-}
-
-function createStrictObject(index: number) {
-  return new StrictNode(
+function createValueObject(index: number) {
+  return new ValueObjectNode(
     "user-dev-test-" + index,
     "u." + (16406 + index),
     ["r.392", "r.40", "r.41", "update", "administrator", "create", "delete", "read"],
@@ -165,15 +125,7 @@ function measureMemory() {
 
 const stats: {
   numEntries: number;
-  plain: {
-    creationTimeMs?: number;
-    memoryUsedMB?: number;
-    plainTraversalTimeMs?: number;
-    propAccessTimeMs?: number;
-    filterTimeMs?: number;
-    mutationTimeMs?: number;
-  };
-  strict: {
+  valueObject: {
     creationTimeMs?: number;
     memoryUsedMB?: number;
     plainTraversalTimeMs?: number;
@@ -183,8 +135,7 @@ const stats: {
   };
 } = {
   numEntries: NUM_ENTRIES,
-  plain: {},
-  strict: {}
+  valueObject: {}
 };
 
 function benchmarkStats<T>(
@@ -207,7 +158,7 @@ function benchmarkStats<T>(
   if (trackMemory) {
     memoryMB = memAfter!.heapUsed - memBefore!.heapUsed;
     statGroup.memoryUsedMB = memoryMB;
-    console.log(`${name} - Time: ${timeMs}ms, Memory Used (Heap): ${memoryMB} MB`);
+    console.log(`${name} - Time: ${timeMs}ms, Memory Used (Heap): ${memoryMB} MB ${JSON.stringify(memAfter)}`);
   } else {
     console.log(`${name}: ${timeMs}ms`);
   }
@@ -216,97 +167,69 @@ function benchmarkStats<T>(
 }
 
 async function runBenchmark() {
-  console.log(`Starting Benchmark with ${NUM_ENTRIES.toLocaleString()} entries...`);
+  console.log(`Starting Value Object Fixed Properties Benchmark with ${NUM_ENTRIES.toLocaleString()} entries...`);
 
-  const plainArray: ReturnType<typeof createPlainObject>[] = new Array(NUM_ENTRIES);
-  const strictArray: StrictNode[] = new Array(NUM_ENTRIES);
+  let valueObjArray: ValueObjectNode[] | null = new Array(NUM_ENTRIES);
 
   console.log("\n--- CREATION ---");
-  benchmarkStats("Plain Creation", stats.plain, "creationTimeMs", () => {
+  benchmarkStats("Value Object Creation", stats.valueObject, "creationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      plainArray[i] = createPlainObject(i);
-    }
-  }, true);
-
-  benchmarkStats("Strict Creation", stats.strict, "creationTimeMs", () => {
-    for (let i = 0; i < NUM_ENTRIES; i++) {
-      strictArray[i] = createStrictObject(i);
+      valueObjArray![i] = createValueObject(i);
     }
   }, true);
 
   console.log("\n--- PLAIN TRAVERSAL ---");
-  benchmarkStats("Plain Traversal (Plain)", stats.plain, "plainTraversalTimeMs", () => {
+  benchmarkStats("Plain Traversal (Value Object)", stats.valueObject, "plainTraversalTimeMs", () => {
     let dummyCount = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      if (plainArray[i]) dummyCount++;
-    }
-    return dummyCount;
-  });
-
-  benchmarkStats("Plain Traversal (Strict)", stats.strict, "plainTraversalTimeMs", () => {
-    let dummyCount = 0;
-    for (let i = 0; i < NUM_ENTRIES; i++) {
-      if (strictArray[i]) continue;
+      if (valueObjArray![i]) continue;
     }
     return dummyCount;
   });
 
   console.log("\n--- PROPERTY ACCESS ---");
-  benchmarkStats("Property Access (Plain)", stats.plain, "propAccessTimeMs", () => {
+  benchmarkStats("Property Access (Value Object)", stats.valueObject, "propAccessTimeMs", () => {
     let sum = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      sum += plainArray[i].details.ag.a.s.r;
-    }
-    return sum;
-  });
-
-  benchmarkStats("Property Access (Strict)", stats.strict, "propAccessTimeMs", () => {
-    let sum = 0;
-    for (let i = 0; i < NUM_ENTRIES; i++) {
-      sum += strictArray[i].details.ag.a.s.r;
+      sum += valueObjArray![i].details.ag.a.s.r;
     }
     return sum;
   });
 
   console.log("\n--- FILTERING ---");
-  benchmarkStats("Filtering (Plain)", stats.plain, "filterTimeMs", () => {
+  benchmarkStats("Filtering (Value Object)", stats.valueObject, "filterTimeMs", () => {
     let matched = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      if (plainArray[i].details.la > 1772455500) matched++;
-    }
-    return matched;
-  });
-
-  benchmarkStats("Filtering (Strict)", stats.strict, "filterTimeMs", () => {
-    let matched = 0;
-    for (let i = 0; i < NUM_ENTRIES; i++) {
-      if (strictArray[i].details.la > 1772455500) matched++;
+      if (valueObjArray![i].details.la > 1772455500) matched++;
     }
     return matched;
   });
 
   console.log("\n--- MUTATION ---");
-  benchmarkStats("Mutation (Plain)", stats.plain, "mutationTimeMs", () => {
+  benchmarkStats("Mutation (Value Object)", stats.valueObject, "mutationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      plainArray[i].details.la += 1;
-    }
-  });
-
-  benchmarkStats("Mutation (Strict)", stats.strict, "mutationTimeMs", () => {
-    for (let i = 0; i < NUM_ENTRIES; i++) {
-      strictArray[i].details.la += 1;
+      valueObjArray![i].details.la += 1;
     }
   });
 
   // Clear memory
-  plainArray.length = 0;
-  strictArray.length = 0;
+  valueObjArray.length = 0;
+  valueObjArray = null;
   Bun.gc(true);
 
   // Save Stats
   if (!existsSync("data")) mkdirSync("data");
-  writeFileSync(join("data", "stats.json"), JSON.stringify(stats, null, 2));
-  console.log("\nSaved stats to data/stats.json");
+  const statsPath = join("data", "stats.json");
+  let existingStats: any = { numEntries: NUM_ENTRIES, "plain object": {}, "value object": {} };
+  if (existsSync(statsPath)) {
+    try { existingStats = JSON.parse(readFileSync(statsPath, "utf-8")); } catch (e) {}
+  }
+  
+  existingStats["value object"] = stats.valueObject;
+  existingStats.numEntries = NUM_ENTRIES;
+
+  writeFileSync(statsPath, JSON.stringify(existingStats, null, 2));
+  console.log("\nSaved value object stats to data/stats.json");
 }
 
 runBenchmark().catch(console.error);
