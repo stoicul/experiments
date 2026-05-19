@@ -24,3 +24,14 @@ for (const script of scripts) {
 }
 
 console.log("All benchmarks completed!");
+
+console.log("=========================================");
+console.log("Updating README.md from stats...");
+console.log("=========================================");
+const updateResult = spawnSync("bun", ["run", "scripts/update_readme.ts"], { stdio: "inherit" });
+if (updateResult.status !== 0) {
+  console.error("Error updating README.md");
+} else {
+  console.log("README.md successfully updated!");
+}
+

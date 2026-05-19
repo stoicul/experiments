@@ -18,6 +18,7 @@ We run performance tests, evaluating object creation, traversal, property access
    - **Value Objects**: `scripts/value_obj_variable_properties.ts`
    - **Minimal Value Objects** (Only root wrapped in a class, nested objects are plain literals): `scripts/value_obj_minimal_variable_properties.ts`
 
+<!-- BENCHMARK_RESULTS_START -->
 ## Benchmark Results (20,000,000 Entries)
 
 Here are the actual measured results from running the isolated benchmark suite under Bun.js with **20,000,000 entries**:
@@ -27,7 +28,7 @@ Here are the actual measured results from running the isolated benchmark suite u
 | Metric | Plain Object | Value Object | Value Object Minimal |
 | :--- | :---: | :---: | :---: |
 | **Creation Time** | 14,080 ms | 13,093 ms | 12,677 ms |
-| **Memory Used (Heap)** | 4,562 MB (~4.6 GB) | 6,360 MB (~6.4 GB) | 6,385 MB (~6.4 GB) |
+| **Memory Used (Heap)** | 4,562 MB (~4.5 GB) | 6,360 MB (~6.2 GB) | 6,385 MB (~6.2 GB) |
 | **Traversal Time** | 93 ms | 80 ms | 84 ms |
 | **Property Access Time** | 324 ms | 308 ms | 316 ms |
 | **Filtering Time** | 204 ms | 195 ms | 203 ms |
@@ -38,11 +39,12 @@ Here are the actual measured results from running the isolated benchmark suite u
 | Metric | Plain Object | Value Object | Value Object Minimal |
 | :--- | :---: | :---: | :---: |
 | **Creation Time** | 10,212 ms | 9,827 ms | 9,607 ms |
-| **Memory Used (Heap)** | 5,127 MB (~5.1 GB) | 6,331 MB (~6.3 GB) | 6,167 MB (~6.2 GB) |
+| **Memory Used (Heap)** | 5,127 MB (~5.0 GB) | 6,331 MB (~6.2 GB) | 6,167 MB (~6.0 GB) |
 | **Traversal Time** | 91 ms | 85 ms | 75 ms |
 | **Property Access Time** | 252 ms | 250 ms | 238 ms |
 | **Filtering Time** | 216 ms | 203 ms | 201 ms |
 | **Mutation Time** | 289 ms | 309 ms | 282 ms |
+<!-- BENCHMARK_RESULTS_END -->
 
 ## Key Findings (JavaScriptCore)
 
