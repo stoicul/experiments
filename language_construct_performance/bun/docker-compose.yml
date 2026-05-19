@@ -1,0 +1,13 @@
+services:
+  benchmark:
+    image: oven/bun:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: bun run ${SCRIPT_NAME:-plain_vs_value_obj_fixed_properties.ts}
+    environment:
+      - NUM_ENTRIES=${NUM_ENTRIES:-10000000}
+    deploy:
+      resources:
+        limits:
+          memory: 15G
