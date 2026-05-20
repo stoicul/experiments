@@ -94,6 +94,13 @@ async function runBenchmark() {
     }
   });
 
+  console.log("\n--- DELETE PROPERTY ---");
+  benchmarkStats("Delete Property (Plain)", stats, "deletePropertyTimeMs", () => {
+    for (let i = 0; i < NUM_ENTRIES; i++) {
+      delete plainArray![i].details.ud;
+    }
+  });
+
   // Clear memory
   plainArray.length = 0;
   plainArray = null;

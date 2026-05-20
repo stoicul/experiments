@@ -110,6 +110,13 @@ async function runBenchmark() {
     }
   });
 
+  console.log("\n--- DELETE PROPERTY ---");
+  benchmarkStats("Delete Property (Value Object Minimal)", stats, "deletePropertyTimeMs", () => {
+    for (let i = 0; i < NUM_ENTRIES; i++) {
+      delete valueObjArray![i].details.ud;
+    }
+  });
+
   // Clear memory
   valueObjArray.length = 0;
   valueObjArray = null;

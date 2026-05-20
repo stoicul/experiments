@@ -64,7 +64,8 @@ Here are the actual measured results from running the isolated benchmark suite u
 | **Traversal Time** | ${formatMS(stats["plain object"].plainTraversalTimeMs)} | ${formatMS(stats["value object"].plainTraversalTimeMs)} | ${formatMS(stats["value object minimal"].plainTraversalTimeMs)} |
 | **Property Access Time** | ${formatMS(stats["plain object"].propAccessTimeMs)} | ${formatMS(stats["value object"].propAccessTimeMs)} | ${formatMS(stats["value object minimal"].propAccessTimeMs)} |
 | **Filtering Time** | ${formatMS(stats["plain object"].filterTimeMs)} | ${formatMS(stats["value object"].filterTimeMs)} | ${formatMS(stats["value object minimal"].filterTimeMs)} |
-| **Mutation Time** | ${formatMS(stats["plain object"].mutationTimeMs)} | ${formatMS(stats["value object"].mutationTimeMs)} | ${formatMS(stats["value object minimal"].mutationTimeMs)} |`;
+| **Mutation Time** | ${formatMS(stats["plain object"].mutationTimeMs)} | ${formatMS(stats["value object"].mutationTimeMs)} | ${formatMS(stats["value object minimal"].mutationTimeMs)} |
+| **Delete Property Time** | ${formatMS(stats["plain object"].deletePropertyTimeMs)} | ${formatMS(stats["value object"].deletePropertyTimeMs)} | ${formatMS(stats["value object minimal"].deletePropertyTimeMs)} |`;
   }
 
   if (statsVar) {
@@ -79,7 +80,8 @@ Here are the actual measured results from running the isolated benchmark suite u
 | **Traversal Time** | ${formatMS(statsVar["plain object"].plainTraversalTimeMs)} | ${formatMS(statsVar["value object"].plainTraversalTimeMs)} | ${formatMS(statsVar["value object minimal"].plainTraversalTimeMs)} |
 | **Property Access Time** | ${formatMS(statsVar["plain object"].propAccessTimeMs)} | ${formatMS(statsVar["value object"].propAccessTimeMs)} | ${formatMS(statsVar["value object minimal"].propAccessTimeMs)} |
 | **Filtering Time** | ${formatMS(statsVar["plain object"].filterTimeMs)} | ${formatMS(statsVar["value object"].filterTimeMs)} | ${formatMS(statsVar["value object minimal"].filterTimeMs)} |
-| **Mutation Time** | ${formatMS(statsVar["plain object"].mutationTimeMs)} | ${formatMS(statsVar["value object"].mutationTimeMs)} | ${formatMS(statsVar["value object minimal"].mutationTimeMs)} |`;
+| **Mutation Time** | ${formatMS(statsVar["plain object"].mutationTimeMs)} | ${formatMS(statsVar["value object"].mutationTimeMs)} | ${formatMS(statsVar["value object minimal"].mutationTimeMs)} |
+| **Delete Property Time** | ${formatMS(statsVar["plain object"].deletePropertyTimeMs)} | ${formatMS(statsVar["value object"].deletePropertyTimeMs)} | ${formatMS(statsVar["value object minimal"].deletePropertyTimeMs)} |`;
   }
 
   newSection += `\n<!-- BENCHMARK_RESULTS_END -->`;

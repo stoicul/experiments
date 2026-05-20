@@ -19,31 +19,33 @@ We run performance tests, evaluating object creation, traversal, property access
    - **Minimal Value Objects** (Only root wrapped in a class, nested objects are plain literals): `scripts/value_obj_minimal_variable_properties.ts`
 
 <!-- BENCHMARK_RESULTS_START -->
-## Benchmark Results (20,000,000 Entries)
+## Benchmark Results (1,000,000 Entries)
 
-Here are the actual measured results from running the isolated benchmark suite under Bun.js with **20,000,000 entries**:
+Here are the actual measured results from running the isolated benchmark suite under Bun.js with **1,000,000 entries**:
 
 ### 1. Fixed Properties (Uniform Structural Shape)
 
 | Metric | Plain Object | Value Object | Value Object Minimal |
 | :--- | :---: | :---: | :---: |
-| **Creation Time** | 14,080 ms | 13,093 ms | 12,677 ms |
-| **Memory Used (Heap)** | 4,562 MB (~4.5 GB) | 6,360 MB (~6.2 GB) | 6,385 MB (~6.2 GB) |
-| **Traversal Time** | 93 ms | 80 ms | 84 ms |
-| **Property Access Time** | 324 ms | 308 ms | 316 ms |
-| **Filtering Time** | 204 ms | 195 ms | 203 ms |
-| **Mutation Time** | 301 ms | 305 ms | 317 ms |
+| **Creation Time** | 716 ms | 1,377 ms | 626 ms |
+| **Memory Used (Heap)** | 181 MB (~0.2 GB) | 159 MB (~0.2 GB) | 188 MB (~0.2 GB) |
+| **Traversal Time** | 12 ms | 16 ms | 7 ms |
+| **Property Access Time** | 41 ms | 86 ms | 21 ms |
+| **Filtering Time** | 20 ms | 33 ms | 17 ms |
+| **Mutation Time** | 48 ms | 44 ms | 27 ms |
+| **Delete Property Time** | 30 ms | 31 ms | 21 ms |
 
 ### 2. Variable Properties (Polymorphic Shapes)
 
 | Metric | Plain Object | Value Object | Value Object Minimal |
 | :--- | :---: | :---: | :---: |
-| **Creation Time** | 10,212 ms | 9,827 ms | 9,607 ms |
-| **Memory Used (Heap)** | 5,127 MB (~5.0 GB) | 6,331 MB (~6.2 GB) | 6,167 MB (~6.0 GB) |
-| **Traversal Time** | 91 ms | 85 ms | 75 ms |
-| **Property Access Time** | 252 ms | 250 ms | 238 ms |
-| **Filtering Time** | 216 ms | 203 ms | 201 ms |
-| **Mutation Time** | 289 ms | 309 ms | 282 ms |
+| **Creation Time** | 13,040 ms | 13,264 ms | 10,674 ms |
+| **Memory Used (Heap)** | 5,727 MB (~5.6 GB) | 5,782 MB (~5.6 GB) | 5,677 MB (~5.5 GB) |
+| **Traversal Time** | 131 ms | 102 ms | 141 ms |
+| **Property Access Time** | 348 ms | 320 ms | 434 ms |
+| **Filtering Time** | 275 ms | 233 ms | 230 ms |
+| **Mutation Time** | 575 ms | 479 ms | 436 ms |
+| **Delete Property Time** | 390 ms | 390 ms | 342 ms |
 <!-- BENCHMARK_RESULTS_END -->
 
 ## Key Findings (JavaScriptCore)
