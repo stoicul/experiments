@@ -1,7 +1,4 @@
-import { writeFileSync, readFileSync, mkdirSync, existsSync } from "fs";
-import { join } from "path";
-
-const NUM_ENTRIES = parseInt(process.env.NUM_ENTRIES || "10000000", 10);
+import { NUM_ENTRIES, benchmarkStats, saveStats } from "./benchmark_utils";
 
 // --- FACTORIES ---
 
@@ -49,59 +46,7 @@ function createPlainObject(index: number): any {
 
 // --- BENCHMARK RUNNER ---
 
-function measureMemory() {
-  Bun.gc(true); // Force GC before taking memory snapshot
-  const mem = process.memoryUsage();
-  return {
-    rss: Math.round(mem.rss / 1024 / 1024),
-    heapTotal: Math.round(mem.heapTotal / 1024 / 1024),
-    heapUsed: Math.round(mem.heapUsed / 1024 / 1024),
-    external: Math.round(mem.external / 1024 / 1024),
-  };
-}
-
-const stats: {
-  numEntries: number;
-  plain: {
-    creationTimeMs?: number;
-    memoryUsedMB?: number;
-    plainTraversalTimeMs?: number;
-    propAccessTimeMs?: number;
-    filterTimeMs?: number;
-    mutationTimeMs?: number;
-  };
-} = {
-  numEntries: NUM_ENTRIES,
-  plain: {}
-};
-
-function benchmarkStats<T>(
-  name: string,
-  statGroup: Record<string, any>,
-  statKey: string,
-  fn: () => T,
-  trackMemory = false
-): T {
-  const memBefore = trackMemory ? measureMemory() : null;
-  const t0 = performance.now();
-  const result = fn();
-  const t1 = performance.now();
-  const memAfter = trackMemory ? measureMemory() : null;
-
-  const timeMs = Math.round(t1 - t0);
-  statGroup[statKey] = timeMs;
-
-  let memoryMB;
-  if (trackMemory) {
-    memoryMB = memAfter!.heapUsed - memBefore!.heapUsed;
-    statGroup.memoryUsedMB = memoryMB;
-    console.log(`${name} - Time: ${timeMs}ms, Memory Used (Heap): ${memoryMB} MB ${JSON.stringify(memAfter)}`);
-  } else {
-    console.log(`${name}: ${timeMs}ms`);
-  }
-
-  return result;
-}
+const stats: Record<string, any> = {};
 
 async function runBenchmark() {
   console.log(`Starting Plain Variable Properties Benchmark with ${NUM_ENTRIES.toLocaleString()} entries...`);
@@ -109,14 +54,14 @@ async function runBenchmark() {
   let plainArray: ReturnType<typeof createPlainObject>[] | null = new Array(NUM_ENTRIES);
 
   console.log("\n--- CREATION ---");
-  benchmarkStats("Plain Creation", stats.plain, "creationTimeMs", () => {
+  benchmarkStats("Plain Creation", stats, "creationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
       plainArray![i] = createPlainObject(i);
     }
   }, true);
 
   console.log("\n--- PLAIN TRAVERSAL ---");
-  benchmarkStats("Plain Traversal (Plain)", stats.plain, "plainTraversalTimeMs", () => {
+  benchmarkStats("Plain Traversal (Plain)", stats, "plainTraversalTimeMs", () => {
     let dummyCount = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       if (plainArray![i]) dummyCount++;
@@ -125,7 +70,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- PROPERTY ACCESS ---");
-  benchmarkStats("Property Access (Plain)", stats.plain, "propAccessTimeMs", () => {
+  benchmarkStats("Property Access (Plain)", stats, "propAccessTimeMs", () => {
     let sum = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       sum += plainArray![i].details?.ag?.a?.s?.r || 0;
@@ -134,7 +79,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- FILTERING ---");
-  benchmarkStats("Filtering (Plain)", stats.plain, "filterTimeMs", () => {
+  benchmarkStats("Filtering (Plain)", stats, "filterTimeMs", () => {
     let matched = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       if (plainArray![i].details.la > 1772455500) matched++;
@@ -143,7 +88,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- MUTATION ---");
-  benchmarkStats("Mutation (Plain)", stats.plain, "mutationTimeMs", () => {
+  benchmarkStats("Mutation (Plain)", stats, "mutationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
       plainArray![i].details.la += 1;
     }
@@ -155,18 +100,7 @@ async function runBenchmark() {
   Bun.gc(true);
 
   // Save Stats
-  if (!existsSync("data")) mkdirSync("data");
-  const statsPath = join("data", "stats_variable.json");
-  let existingStats: any = { numEntries: NUM_ENTRIES, "plain object": {}, "value object": {} };
-  if (existsSync(statsPath)) {
-    try { existingStats = JSON.parse(readFileSync(statsPath, "utf-8")); } catch (e) {}
-  }
-  
-  existingStats["plain object"] = stats.plain;
-  existingStats.numEntries = NUM_ENTRIES;
-
-  writeFileSync(statsPath, JSON.stringify(existingStats, null, 2));
-  console.log("\nSaved plain stats to data/stats_variable.json");
+  saveStats("stats_variable.json", "plain object", stats);
 }
 
 runBenchmark().catch(console.error);

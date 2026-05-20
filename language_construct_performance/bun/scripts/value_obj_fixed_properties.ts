@@ -1,7 +1,4 @@
-import { writeFileSync, readFileSync, mkdirSync, existsSync } from "fs";
-import { join } from "path";
-
-const NUM_ENTRIES = parseInt(process.env.NUM_ENTRIES || "20000000", 10);
+import { NUM_ENTRIES, benchmarkStats, saveStats } from "./benchmark_utils";
 
 // --- VALUE OBJECT CLASSES ---
 
@@ -112,59 +109,7 @@ function createValueObject(index: number) {
 
 // --- BENCHMARK RUNNER ---
 
-function measureMemory() {
-  Bun.gc(true); // Force GC before taking memory snapshot
-  const mem = process.memoryUsage();
-  return {
-    rss: Math.round(mem.rss / 1024 / 1024),
-    heapTotal: Math.round(mem.heapTotal / 1024 / 1024),
-    heapUsed: Math.round(mem.heapUsed / 1024 / 1024),
-    external: Math.round(mem.external / 1024 / 1024),
-  };
-}
-
-const stats: {
-  numEntries: number;
-  valueObject: {
-    creationTimeMs?: number;
-    memoryUsedMB?: number;
-    plainTraversalTimeMs?: number;
-    propAccessTimeMs?: number;
-    filterTimeMs?: number;
-    mutationTimeMs?: number;
-  };
-} = {
-  numEntries: NUM_ENTRIES,
-  valueObject: {}
-};
-
-function benchmarkStats<T>(
-  name: string,
-  statGroup: Record<string, any>,
-  statKey: string,
-  fn: () => T,
-  trackMemory = false
-): T {
-  const memBefore = trackMemory ? measureMemory() : null;
-  const t0 = performance.now();
-  const result = fn();
-  const t1 = performance.now();
-  const memAfter = trackMemory ? measureMemory() : null;
-
-  const timeMs = Math.round(t1 - t0);
-  statGroup[statKey] = timeMs;
-
-  let memoryMB;
-  if (trackMemory) {
-    memoryMB = memAfter!.heapUsed - memBefore!.heapUsed;
-    statGroup.memoryUsedMB = memoryMB;
-    console.log(`${name} - Time: ${timeMs}ms, Memory Used (Heap): ${memoryMB} MB ${JSON.stringify(memAfter)}`);
-  } else {
-    console.log(`${name}: ${timeMs}ms`);
-  }
-
-  return result;
-}
+const stats: Record<string, any> = {};
 
 async function runBenchmark() {
   console.log(`Starting Value Object Fixed Properties Benchmark with ${NUM_ENTRIES.toLocaleString()} entries...`);
@@ -172,14 +117,14 @@ async function runBenchmark() {
   let valueObjArray: ValueObjectNode[] | null = new Array(NUM_ENTRIES);
 
   console.log("\n--- CREATION ---");
-  benchmarkStats("Value Object Creation", stats.valueObject, "creationTimeMs", () => {
+  benchmarkStats("Value Object Creation", stats, "creationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
       valueObjArray![i] = createValueObject(i);
     }
   }, true);
 
   console.log("\n--- PLAIN TRAVERSAL ---");
-  benchmarkStats("Plain Traversal (Value Object)", stats.valueObject, "plainTraversalTimeMs", () => {
+  benchmarkStats("Plain Traversal (Value Object)", stats, "plainTraversalTimeMs", () => {
     let dummyCount = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       if (valueObjArray![i]) continue;
@@ -188,7 +133,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- PROPERTY ACCESS ---");
-  benchmarkStats("Property Access (Value Object)", stats.valueObject, "propAccessTimeMs", () => {
+  benchmarkStats("Property Access (Value Object)", stats, "propAccessTimeMs", () => {
     let sum = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       sum += valueObjArray![i].details.ag.a.s.r;
@@ -197,7 +142,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- FILTERING ---");
-  benchmarkStats("Filtering (Value Object)", stats.valueObject, "filterTimeMs", () => {
+  benchmarkStats("Filtering (Value Object)", stats, "filterTimeMs", () => {
     let matched = 0;
     for (let i = 0; i < NUM_ENTRIES; i++) {
       if (valueObjArray![i].details.la > 1772455500) matched++;
@@ -206,7 +151,7 @@ async function runBenchmark() {
   });
 
   console.log("\n--- MUTATION ---");
-  benchmarkStats("Mutation (Value Object)", stats.valueObject, "mutationTimeMs", () => {
+  benchmarkStats("Mutation (Value Object)", stats, "mutationTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
       valueObjArray![i].details.la += 1;
     }
@@ -218,18 +163,7 @@ async function runBenchmark() {
   Bun.gc(true);
 
   // Save Stats
-  if (!existsSync("data")) mkdirSync("data");
-  const statsPath = join("data", "stats.json");
-  let existingStats: any = { numEntries: NUM_ENTRIES, "plain object": {}, "value object": {} };
-  if (existsSync(statsPath)) {
-    try { existingStats = JSON.parse(readFileSync(statsPath, "utf-8")); } catch (e) {}
-  }
-  
-  existingStats["value object"] = stats.valueObject;
-  existingStats.numEntries = NUM_ENTRIES;
-
-  writeFileSync(statsPath, JSON.stringify(existingStats, null, 2));
-  console.log("\nSaved value object stats to data/stats.json");
+  saveStats("stats.json", "value object", stats);
 }
 
 runBenchmark().catch(console.error);
