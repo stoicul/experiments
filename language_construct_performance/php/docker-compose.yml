@@ -1,0 +1,14 @@
+services:
+  benchmark:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: [ "php" ]
+    command: [ "scripts/run_all.php" ]
+    environment:
+      - NUM_ENTRIES=${NUM_ENTRIES:-1000000}
+    deploy:
+      resources:
+        limits:
+          memory: 15G
