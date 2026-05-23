@@ -1,0 +1,14 @@
+services:
+  benchmark:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: [ "node", "--expose-gc", "--max-old-space-size=16384" ]
+    command: [ "scripts/run_all.mjs" ]
+    environment:
+      - NUM_ENTRIES=${NUM_ENTRIES:-10000000}
+    deploy:
+      resources:
+        limits:
+          memory: 20G

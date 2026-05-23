@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-objects-benchmark",
+  "type": "module",
+  "scripts": {
+    "start": "node --expose-gc --max-old-space-size=12288 scripts/run_all.mjs",
+    "benchmark:fixed:plain": "node --expose-gc --max-old-space-size=12288 scripts/plain_obj_fixed_properties.mjs",
+    "benchmark:fixed:value": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_fixed_properties.mjs",
+    "benchmark:fixed:strict": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_fixed_properties.mjs",
+    "benchmark:fixed:minimal": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_minimal_fixed_properties.mjs",
+    "benchmark:variable:plain": "node --expose-gc --max-old-space-size=12288 scripts/plane_obj_variable_properties.mjs",
+    "benchmark:variable:value": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_variable_properties.mjs",
+    "benchmark:variable:strict": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_variable_properties.mjs",
+    "benchmark:variable:minimal": "node --expose-gc --max-old-space-size=12288 scripts/value_obj_minimal_variable_properties.mjs",
+    "benchmark:all": "node --expose-gc --max-old-space-size=12288 scripts/run_all.mjs"
+  }
+}
