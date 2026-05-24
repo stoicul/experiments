@@ -1,0 +1,14 @@
+services:
+  benchmark:
+    image: golang:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: [ "go" ]
+    command: [ "run", "scripts/run_all.go" ]
+    environment:
+      - NUM_ENTRIES=${NUM_ENTRIES:-20000000}
+    deploy:
+      resources:
+        limits:
+          memory: 15G
