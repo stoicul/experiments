@@ -58,7 +58,12 @@ func BenchmarkStats(name string, statGroup map[string]interface{}, statKey strin
 	statGroup[statKey] = timeMs
 
 	if trackMemory {
-		memoryMB := memAfter.HeapUsed - memBefore.HeapUsed
+		var memoryMB uint64
+		if memAfter.HeapUsed >= memBefore.HeapUsed {
+			memoryMB = memAfter.HeapUsed - memBefore.HeapUsed
+		} else {
+			memoryMB = 0
+		}
 		statGroup["memoryUsedMB"] = memoryMB
 		out, _ := json.Marshal(memAfter)
 		fmt.Printf("%s - Time: %dms, Memory Used (Heap): %d MB %s\n", name, timeMs, memoryMB, string(out))
