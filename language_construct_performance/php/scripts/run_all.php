@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-echo "Running all PHP benchmarks sequentially in isolated processes...\n\n";
+$group = $argv[1] ?? 'all';
+echo "Running PHP benchmarks (group: {$group}) sequentially in isolated processes...\n\n";
 
-$scripts = [
+$objects_scripts = [
     'scripts/plain_obj_fixed_properties.php',
     'scripts/value_obj_fixed_properties.php',
     'scripts/value_obj_minimal_fixed_properties.php',
@@ -12,6 +13,19 @@ $scripts = [
     'scripts/value_obj_variable_properties.php',
     'scripts/value_obj_minimal_variable_properties.php'
 ];
+
+$json_scripts = [
+    'scripts/json_encoding.php'
+];
+
+$scripts = [];
+if ($group === 'objects') {
+    $scripts = $objects_scripts;
+} elseif ($group === 'json') {
+    $scripts = $json_scripts;
+} else {
+    $scripts = array_merge($objects_scripts, $json_scripts);
+}
 
 // Inherit NUM_ENTRIES environment variable if set
 $numEntriesEnv = getenv('NUM_ENTRIES');

@@ -20,18 +20,32 @@ fn run_script(name: &str) -> Result<(), std::io::Error> {
 }
 
 fn main() {
-    println!("Running all benchmarks sequentially in isolated processes...\n");
+    let group = std::env::args().nth(1).unwrap_or_else(|| "all".to_string());
+    println!("Running benchmarks (group: {}) sequentially in isolated processes...\n", group);
 
-    let scripts = vec![
+    let objects_scripts = vec![
         "plain_obj_fixed_properties",
         "value_obj_fixed_properties",
         "value_obj_minimal_fixed_properties",
         "plain_obj_variable_properties",
         "value_obj_variable_properties",
         "value_obj_minimal_variable_properties",
+    ];
+
+    let json_scripts = vec![
         "json_encoding",
         "json_encoding_struct",
     ];
+
+    let scripts = match group.as_str() {
+        "objects" => objects_scripts,
+        "json" => json_scripts,
+        _ => {
+            let mut all = objects_scripts;
+            all.extend(json_scripts);
+            all
+        }
+    };
 
     for script in scripts {
         if let Err(e) = run_script(script) {

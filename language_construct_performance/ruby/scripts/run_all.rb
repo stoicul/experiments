@@ -1,6 +1,7 @@
-puts "Running all benchmarks sequentially in isolated processes...\n\n"
+group = ARGV[0] || "all"
+puts "Running benchmarks (group: #{group}) sequentially in isolated processes...\n\n"
 
-scripts = [
+objects_scripts = [
   "scripts/plain_obj_fixed_properties.rb",
   "scripts/value_obj_fixed_properties.rb",
   "scripts/value_obj_minimal_fixed_properties.rb",
@@ -8,6 +9,18 @@ scripts = [
   "scripts/value_obj_variable_properties.rb",
   "scripts/value_obj_minimal_variable_properties.rb"
 ]
+
+json_scripts = [
+  "scripts/json_encoding.rb"
+]
+
+if group == "objects"
+  scripts = objects_scripts
+elsif group == "json"
+  scripts = json_scripts
+else
+  scripts = objects_scripts + json_scripts
+end
 
 scripts.each do |script|
   puts "========================================="

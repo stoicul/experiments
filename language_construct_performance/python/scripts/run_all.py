@@ -3,9 +3,13 @@ import sys
 import subprocess
 
 def run_all():
-    print("Running all Python benchmarks sequentially in isolated processes...\n")
+    group = "all"
+    if len(sys.argv) > 1:
+        group = sys.argv[1]
+
+    print(f"Running Python benchmarks (group: {group}) sequentially in isolated processes...\n")
     
-    scripts = [
+    objects_scripts = [
         'scripts/plain_obj_fixed_properties.py',
         'scripts/value_obj_fixed_properties.py',
         'scripts/value_obj_minimal_fixed_properties.py',
@@ -13,6 +17,17 @@ def run_all():
         'scripts/value_obj_variable_properties.py',
         'scripts/value_obj_minimal_variable_properties.py'
     ]
+
+    json_scripts = [
+        'scripts/json_encoding.py'
+    ]
+
+    if group == "objects":
+        scripts = objects_scripts
+    elif group == "json":
+        scripts = json_scripts
+    else:
+        scripts = objects_scripts + json_scripts
     
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     

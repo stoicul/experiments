@@ -1,8 +1,9 @@
 import { spawnSync } from "child_process";
 
-console.log("Running all benchmarks sequentially in isolated processes...\n");
+const group = process.argv[2] || "all";
+console.log(`Running benchmarks (group: ${group}) sequentially in isolated processes...\n`);
 
-const scripts = [
+const objectsScripts = [
   "scripts/plain_obj_fixed_properties.ts",
   "scripts/value_obj_fixed_properties.ts",
   "scripts/value_obj_minimal_fixed_properties.ts",
@@ -10,6 +11,19 @@ const scripts = [
   "scripts/value_obj_variable_properties.ts",
   "scripts/value_obj_minimal_variable_properties.ts"
 ];
+
+const jsonScripts = [
+  "scripts/json_encoding.ts"
+];
+
+let scripts = [];
+if (group === "objects") {
+  scripts = objectsScripts;
+} else if (group === "json") {
+  scripts = jsonScripts;
+} else {
+  scripts = [...objectsScripts, ...jsonScripts];
+}
 
 for (const script of scripts) {
   console.log(`=========================================`);

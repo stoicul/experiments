@@ -24,15 +24,34 @@ func runScript(name string) error {
 }
 
 func main() {
-	fmt.Println("Running all benchmarks sequentially in isolated processes...\n")
+	group := "all"
+	if len(os.Args) > 1 {
+		group = os.Args[1]
+	}
 
-	scripts := []string{
+	fmt.Printf("Running benchmarks (group: %s) sequentially in isolated processes...\n\n", group)
+
+	objectsScripts := []string{
 		"plain_obj_fixed_properties",
 		"value_obj_fixed_properties",
 		"value_obj_minimal_fixed_properties",
 		"plain_obj_variable_properties",
 		"value_obj_variable_properties",
 		"value_obj_minimal_variable_properties",
+	}
+
+	jsonScripts := []string{
+		"json_encoding",
+		"json_encoding_struct",
+	}
+
+	var scripts []string
+	if group == "objects" {
+		scripts = objectsScripts
+	} else if group == "json" {
+		scripts = jsonScripts
+	} else {
+		scripts = append(objectsScripts, jsonScripts...)
 	}
 
 	for _, script := range scripts {
