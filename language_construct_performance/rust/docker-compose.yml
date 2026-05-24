@@ -1,0 +1,14 @@
+services:
+  benchmark:
+    image: rust:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: ["cargo"]
+    command: ["run", "--release", "--bin", "run_all"]
+    environment:
+      - NUM_ENTRIES=${NUM_ENTRIES:-20000000}
+    deploy:
+      resources:
+        limits:
+          memory: 15G

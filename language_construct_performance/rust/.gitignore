@@ -1,0 +1,7 @@
+/target/
+
+# Ignore generated statistics data
+data/stats.json
+data/stats_variable.json
+data/stats_json.json
+data/stats_json_struct.json

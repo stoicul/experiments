@@ -1,0 +1,49 @@
+[package]
+name = "benchmark"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sysinfo = "0.30"
+
+[[bin]]
+name = "plain_obj_fixed_properties"
+path = "src/bin/plain_obj_fixed_properties.rs"
+
+[[bin]]
+name = "plain_obj_variable_properties"
+path = "src/bin/plain_obj_variable_properties.rs"
+
+[[bin]]
+name = "value_obj_fixed_properties"
+path = "src/bin/value_obj_fixed_properties.rs"
+
+[[bin]]
+name = "value_obj_minimal_fixed_properties"
+path = "src/bin/value_obj_minimal_fixed_properties.rs"
+
+[[bin]]
+name = "value_obj_variable_properties"
+path = "src/bin/value_obj_variable_properties.rs"
+
+[[bin]]
+name = "value_obj_minimal_variable_properties"
+path = "src/bin/value_obj_minimal_variable_properties.rs"
+
+[[bin]]
+name = "json_encoding"
+path = "src/bin/json_encoding.rs"
+
+[[bin]]
+name = "json_encoding_struct"
+path = "src/bin/json_encoding_struct.rs"
+
+[[bin]]
+name = "run_all"
+path = "src/bin/run_all.rs"
+
+[[bin]]
+name = "update_readme"
+path = "src/bin/update_readme.rs"
