@@ -9,36 +9,52 @@ serde_json = "1.0"
 sysinfo = "0.30"
 
 [[bin]]
-name = "plain_obj_fixed_properties"
-path = "src/bin/plain_obj_fixed_properties.rs"
+name = "plain_obj_naive_fixed_properties"
+path = "src/bin/plain_obj_naive_fixed_properties.rs"
 
 [[bin]]
-name = "plain_obj_variable_properties"
-path = "src/bin/plain_obj_variable_properties.rs"
+name = "plain_obj_idiomatic_fixed_properties"
+path = "src/bin/plain_obj_idiomatic_fixed_properties.rs"
 
 [[bin]]
-name = "value_obj_fixed_properties"
-path = "src/bin/value_obj_fixed_properties.rs"
+name = "value_obj_naive_fixed_properties"
+path = "src/bin/value_obj_naive_fixed_properties.rs"
 
 [[bin]]
-name = "value_obj_minimal_fixed_properties"
-path = "src/bin/value_obj_minimal_fixed_properties.rs"
+name = "value_obj_idiomatic_fixed_properties"
+path = "src/bin/value_obj_idiomatic_fixed_properties.rs"
 
 [[bin]]
-name = "value_obj_variable_properties"
-path = "src/bin/value_obj_variable_properties.rs"
+name = "plain_obj_naive_variable_properties"
+path = "src/bin/plain_obj_naive_variable_properties.rs"
 
 [[bin]]
-name = "value_obj_minimal_variable_properties"
-path = "src/bin/value_obj_minimal_variable_properties.rs"
+name = "plain_obj_idiomatic_variable_properties"
+path = "src/bin/plain_obj_idiomatic_variable_properties.rs"
 
 [[bin]]
-name = "json_encoding"
-path = "src/bin/json_encoding.rs"
+name = "value_obj_naive_variable_properties"
+path = "src/bin/value_obj_naive_variable_properties.rs"
 
 [[bin]]
-name = "json_encoding_struct"
-path = "src/bin/json_encoding_struct.rs"
+name = "value_obj_idiomatic_variable_properties"
+path = "src/bin/value_obj_idiomatic_variable_properties.rs"
+
+[[bin]]
+name = "json_encoding_plain_naive"
+path = "src/bin/json_encoding_plain_naive.rs"
+
+[[bin]]
+name = "json_encoding_plain_idiomatic"
+path = "src/bin/json_encoding_plain_idiomatic.rs"
+
+[[bin]]
+name = "json_encoding_value_naive"
+path = "src/bin/json_encoding_value_naive.rs"
+
+[[bin]]
+name = "json_encoding_value_idiomatic"
+path = "src/bin/json_encoding_value_idiomatic.rs"
 
 [[bin]]
 name = "run_all"
@@ -47,3 +63,4 @@ path = "src/bin/run_all.rs"
 [[bin]]
 name = "update_readme"
 path = "src/bin/update_readme.rs"
+

@@ -104,7 +104,7 @@ func main() {
 	if stats != nil {
 		newSection += "\n### 1. Fixed Properties (Uniform Structural Shape)\n\n"
 		newSection += "| Metric | Plain Object | Value Object | Value Object Minimal |\n"
-		newSection += "| :--- | :---: | :---: | :---: |\n"
+		newSection += "| :--- | :---: | :---: | :---: | :---: |\n"
 		
 		po := stats["plain object"].(map[string]interface{})
 		vo := stats["value object"].(map[string]interface{})
@@ -122,7 +122,7 @@ func main() {
 	if statsVar != nil {
 		newSection += "\n### 2. Variable Properties (Polymorphic Shapes)\n\n"
 		newSection += "| Metric | Plain Object | Value Object | Value Object Minimal |\n"
-		newSection += "| :--- | :---: | :---: | :---: |\n"
+		newSection += "| :--- | :---: | :---: | :---: | :---: |\n"
 		
 		po := statsVar["plain object"].(map[string]interface{})
 		vo := statsVar["value object"].(map[string]interface{})

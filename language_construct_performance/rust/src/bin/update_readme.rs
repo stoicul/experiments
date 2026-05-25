@@ -83,7 +83,7 @@ fn main() {
     if let Some(s) = stats {
         new_section.push_str("\n### 1. Fixed Properties (Uniform Structural Shape)\n\n");
         new_section.push_str("| Metric | Plain Object | Value Object | Value Object Minimal |\n");
-        new_section.push_str("| :--- | :---: | :---: | :---: |\n");
+        new_section.push_str("| :--- | :---: | :---: | :---: | :---: |\n");
 
         if let (Some(po), Some(vo), Some(vom)) = (
             s.get("plain object"),
@@ -103,7 +103,7 @@ fn main() {
     if let Some(sv) = stats_var {
         new_section.push_str("\n### 2. Variable Properties (Polymorphic Shapes)\n\n");
         new_section.push_str("| Metric | Plain Object | Value Object | Value Object Minimal |\n");
-        new_section.push_str("| :--- | :---: | :---: | :---: |\n");
+        new_section.push_str("| :--- | :---: | :---: | :---: | :---: |\n");
 
         if let (Some(po), Some(vo), Some(vom)) = (
             sv.get("plain object"),

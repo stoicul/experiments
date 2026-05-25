@@ -6,16 +6,21 @@ $group = $argv[1] ?? 'all';
 echo "Running PHP benchmarks (group: {$group}) sequentially in isolated processes...\n\n";
 
 $objects_scripts = [
-    'scripts/plain_obj_fixed_properties.php',
-    'scripts/value_obj_fixed_properties.php',
-    'scripts/value_obj_minimal_fixed_properties.php',
-    'scripts/plain_obj_variable_properties.php',
-    'scripts/value_obj_variable_properties.php',
-    'scripts/value_obj_minimal_variable_properties.php'
+    'scripts/plain_obj_naive_fixed_properties.php',
+    'scripts/plain_obj_idiomatic_fixed_properties.php',
+    'scripts/value_obj_naive_fixed_properties.php',
+    'scripts/value_obj_idiomatic_fixed_properties.php',
+    'scripts/plain_obj_naive_variable_properties.php',
+    'scripts/plain_obj_idiomatic_variable_properties.php',
+    'scripts/value_obj_naive_variable_properties.php',
+    'scripts/value_obj_idiomatic_variable_properties.php'
 ];
 
 $json_scripts = [
-    'scripts/json_encoding.php'
+    'scripts/json_encoding_plain_naive.php',
+    'scripts/json_encoding_plain_idiomatic.php',
+    'scripts/json_encoding_value_naive.php',
+    'scripts/json_encoding_value_idiomatic.php'
 ];
 
 $scripts = [];

@@ -4,17 +4,22 @@ const group = process.argv[2] || "all";
 console.log(`Running benchmarks (group: ${group}) sequentially in isolated processes...\n`);
 
 const objectsScripts = [
-  "scripts/plain_obj_fixed_properties.mjs",
-  "scripts/value_obj_fixed_properties.mjs",
-  "scripts/value_obj_minimal_fixed_properties.mjs",
-  "scripts/plane_obj_variable_properties.mjs",
-  "scripts/value_obj_variable_properties.mjs",
-  "scripts/value_obj_minimal_variable_properties.mjs"
-];
+    'scripts/plain_obj_naive_fixed_properties.mjs',
+    'scripts/plain_obj_idiomatic_fixed_properties.mjs',
+    'scripts/value_obj_naive_fixed_properties.mjs',
+    'scripts/value_obj_idiomatic_fixed_properties.mjs',
+    'scripts/plain_obj_naive_variable_properties.mjs',
+    'scripts/plain_obj_idiomatic_variable_properties.mjs',
+    'scripts/value_obj_naive_variable_properties.mjs',
+    'scripts/value_obj_idiomatic_variable_properties.mjs'
+  ];
 
 const jsonScripts = [
-  "scripts/json_encoding.mjs"
-];
+    'scripts/json_encoding_plain_naive.mjs',
+    'scripts/json_encoding_plain_idiomatic.mjs',
+    'scripts/json_encoding_value_naive.mjs',
+    'scripts/json_encoding_value_idiomatic.mjs'
+  ];
 
 let scripts = [];
 if (group === "objects") {

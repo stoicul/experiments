@@ -10,16 +10,21 @@ def run_all():
     print(f"Running Python benchmarks (group: {group}) sequentially in isolated processes...\n")
     
     objects_scripts = [
-        'scripts/plain_obj_fixed_properties.py',
-        'scripts/value_obj_fixed_properties.py',
-        'scripts/value_obj_minimal_fixed_properties.py',
-        'scripts/plain_obj_variable_properties.py',
-        'scripts/value_obj_variable_properties.py',
-        'scripts/value_obj_minimal_variable_properties.py'
+        'scripts/plain_obj_naive_fixed_properties.py',
+        'scripts/plain_obj_idiomatic_fixed_properties.py',
+        'scripts/value_obj_naive_fixed_properties.py',
+        'scripts/value_obj_idiomatic_fixed_properties.py',
+        'scripts/plain_obj_naive_variable_properties.py',
+        'scripts/plain_obj_idiomatic_variable_properties.py',
+        'scripts/value_obj_naive_variable_properties.py',
+        'scripts/value_obj_idiomatic_variable_properties.py'
     ]
 
     json_scripts = [
-        'scripts/json_encoding.py'
+        'scripts/json_encoding_plain_naive.py',
+        'scripts/json_encoding_plain_idiomatic.py',
+        'scripts/json_encoding_value_naive.py',
+        'scripts/json_encoding_value_idiomatic.py'
     ]
 
     if group == "objects":

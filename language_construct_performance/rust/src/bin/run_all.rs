@@ -24,17 +24,21 @@ fn main() {
     println!("Running benchmarks (group: {}) sequentially in isolated processes...\n", group);
 
     let objects_scripts = vec![
-        "plain_obj_fixed_properties",
-        "value_obj_fixed_properties",
-        "value_obj_minimal_fixed_properties",
-        "plain_obj_variable_properties",
-        "value_obj_variable_properties",
-        "value_obj_minimal_variable_properties",
+        "plain_obj_naive_fixed_properties",
+        "plain_obj_idiomatic_fixed_properties",
+        "value_obj_naive_fixed_properties",
+        "value_obj_idiomatic_fixed_properties",
+        "plain_obj_naive_variable_properties",
+        "plain_obj_idiomatic_variable_properties",
+        "value_obj_naive_variable_properties",
+        "value_obj_idiomatic_variable_properties",
     ];
 
     let json_scripts = vec![
-        "json_encoding",
-        "json_encoding_struct",
+        "json_encoding_plain_naive",
+        "json_encoding_plain_idiomatic",
+        "json_encoding_value_naive",
+        "json_encoding_value_idiomatic",
     ];
 
     let scripts = match group.as_str() {

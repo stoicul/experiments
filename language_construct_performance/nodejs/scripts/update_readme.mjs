@@ -58,7 +58,7 @@ Here are the actual measured results from running the isolated benchmark suite u
 ### 1. Fixed Properties (Uniform Structural Shape)
 
 | Metric | Plain Object | Value Object | Value Object Minimal |
-| :--- | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: |
 | **Creation Time** | ${formatMS(stats["plain object"].creationTimeMs)} | ${formatMS(stats["value object"].creationTimeMs)} | ${formatMS(stats["value object minimal"].creationTimeMs)} |
 | **Memory Used (Heap)** | ${formatMB(stats["plain object"].memoryUsedMB)} | ${formatMB(stats["value object"].memoryUsedMB)} | ${formatMB(stats["value object minimal"].memoryUsedMB)} |
 | **Traversal Time** | ${formatMS(stats["plain object"].plainTraversalTimeMs)} | ${formatMS(stats["value object"].plainTraversalTimeMs)} | ${formatMS(stats["value object minimal"].plainTraversalTimeMs)} |
@@ -74,7 +74,7 @@ Here are the actual measured results from running the isolated benchmark suite u
 ### 2. Variable Properties (Polymorphic Shapes)
 
 | Metric | Plain Object | Value Object | Value Object Minimal |
-| :--- | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: |
 | **Creation Time** | ${formatMS(statsVar["plain object"].creationTimeMs)} | ${formatMS(statsVar["value object"].creationTimeMs)} | ${formatMS(statsVar["value object minimal"].creationTimeMs)} |
 | **Memory Used (Heap)** | ${formatMB(statsVar["plain object"].memoryUsedMB)} | ${formatMB(statsVar["value object"].memoryUsedMB)} | ${formatMB(statsVar["value object minimal"].memoryUsedMB)} |
 | **Traversal Time** | ${formatMS(statsVar["plain object"].plainTraversalTimeMs)} | ${formatMS(statsVar["value object"].plainTraversalTimeMs)} | ${formatMS(statsVar["value object minimal"].plainTraversalTimeMs)} |

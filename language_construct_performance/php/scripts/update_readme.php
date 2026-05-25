@@ -59,7 +59,7 @@ function run()
     if ($stats) {
         $newSection .= "\n### 1. Fixed Properties (Uniform Structural Shape)\n\n";
         $newSection .= "| Metric | Plain Object (Array) | Value Object | Value Object Minimal |\n";
-        $newSection .= "| :--- | :---: | :---: | :---: |\n";
+        $newSection .= "| :--- | :---: | :---: | :---: | :---: |\n";
         $newSection .= sprintf("| **Creation Time** | %s | %s | %s |\n", formatMS($stats['plain object']['creationTimeMs'] ?? 0), formatMS($stats['value object']['creationTimeMs'] ?? 0), formatMS($stats['value object minimal']['creationTimeMs'] ?? 0));
         $newSection .= sprintf("| **Memory Used (Heap)** | %s | %s | %s |\n", formatMB($stats['plain object']['memoryUsedMB'] ?? 0), formatMB($stats['value object']['memoryUsedMB'] ?? 0), formatMB($stats['value object minimal']['memoryUsedMB'] ?? 0));
         $newSection .= sprintf("| **Traversal Time** | %s | %s | %s |\n", formatMS($stats['plain object']['plainTraversalTimeMs'] ?? 0), formatMS($stats['value object']['plainTraversalTimeMs'] ?? 0), formatMS($stats['value object minimal']['plainTraversalTimeMs'] ?? 0));
@@ -72,7 +72,7 @@ function run()
     if ($statsVar) {
         $newSection .= "\n### 2. Variable Properties (Polymorphic Shapes)\n\n";
         $newSection .= "| Metric | Plain Object (Array) | Value Object | Value Object Minimal |\n";
-        $newSection .= "| :--- | :---: | :---: | :---: |\n";
+        $newSection .= "| :--- | :---: | :---: | :---: | :---: |\n";
         $newSection .= sprintf("| **Creation Time** | %s | %s | %s |\n", formatMS($statsVar['plain object']['creationTimeMs'] ?? 0), formatMS($statsVar['value object']['creationTimeMs'] ?? 0), formatMS($statsVar['value object minimal']['creationTimeMs'] ?? 0));
         $newSection .= sprintf("| **Memory Used (Heap)** | %s | %s | %s |\n", formatMB($statsVar['plain object']['memoryUsedMB'] ?? 0), formatMB($statsVar['value object']['memoryUsedMB'] ?? 0), formatMB($statsVar['value object minimal']['memoryUsedMB'] ?? 0));
         $newSection .= sprintf("| **Traversal Time** | %s | %s | %s |\n", formatMS($statsVar['plain object']['plainTraversalTimeMs'] ?? 0), formatMS($statsVar['value object']['plainTraversalTimeMs'] ?? 0), formatMS($statsVar['value object minimal']['plainTraversalTimeMs'] ?? 0));
