@@ -90,18 +90,61 @@ func main() {
 		return nil
 	})
 
+	
+	fmt.Println("\n--- JSON FILE WRITE ---")
+	BenchmarkStats("JSON File Write", stats, "jsonFileWriteTimeMs", true, func() interface{} {
+		err := os.WriteFile("data/test_dump.json", encodedJSON, 0644)
+		if err != nil {
+			panic(err)
+		}
+		return nil
+	})
+
+	var readJSON []byte
+	fmt.Println("\n--- JSON FILE READ ---")
+	BenchmarkStats("JSON File Read", stats, "jsonFileReadTimeMs", true, func() interface{} {
+		var err error
+		readJSON, err = os.ReadFile("data/test_dump.json")
+		if err != nil {
+			panic(err)
+		}
+		return nil
+	})
+
+	fmt.Println("\n--- JSON FILE DECODE ---")
+	BenchmarkStats("JSON File Decode", stats, "jsonFileDecodeTimeMs", true, func() interface{} {
+		var decoded [][]map[string]interface{}
+		err := json.Unmarshal(readJSON, &decoded)
+		if err != nil {
+			panic(err)
+		}
+		return nil
+	})
+
+		_ = os.Remove("data/test_dump.json")
 	// Clear memory
 	twoDArray = nil
 	encodedJSON = nil
 	runtime.GC()
 
 	os.MkdirAll("data", 0755)
-	jsonStats := map[string]interface{}{
+	statsPath := "data/stats_json.json"
+	allStats := map[string]interface{}{
 		"columns": columns,
 		"rows":    rows,
-		"stats":   stats,
 	}
-	b, _ := json.MarshalIndent(jsonStats, "", "  ")
-	os.WriteFile("data/stats_json_plain_idiomatic.json", b, 0644)
-	fmt.Printf("\nSaved json stats to data/stats_json_plain_idiomatic.json\n")
+	if b, err := os.ReadFile(statsPath); err == nil {
+		var existing map[string]interface{}
+		if err := json.Unmarshal(b, &existing); err == nil {
+			for k, v := range existing {
+				allStats[k] = v
+			}
+		}
+	}
+	allStats["naive"] = stats
+	allStats["columns"] = columns
+	allStats["rows"] = rows
+	b, _ := json.MarshalIndent(allStats, "", "  ")
+	os.WriteFile(statsPath, b, 0644)
+	fmt.Printf("\nSaved json stats to data/stats_json.json\n")
 }

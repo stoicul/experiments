@@ -120,6 +120,39 @@ fn main() {
         }
     }
 
+    
+    let stats_json_path = Path::new("data/stats_json.json");
+    if let Ok(b) = fs::read_to_string(stats_json_path) {
+        if let Ok(data_json) = serde_json::from_str::<Value>(&b) {
+            let r = data_json.get("rows").and_then(|v| v.as_u64()).unwrap_or(0);
+            let c = data_json.get("columns").and_then(|v| v.as_u64()).unwrap_or(0);
+            let empty_obj = json!({});
+            let n = data_json.get("naive").unwrap_or(&empty_obj);
+            let i = data_json.get("idiomatic").unwrap_or(&empty_obj);
+            
+            let sr = r.to_string();
+            let mut formatted_r = String::new();
+            let len = sr.len();
+            for (idx, ch) in sr.chars().enumerate() {
+                if idx > 0 && (len - idx) % 3 == 0 {
+                    formatted_r.push(',');
+                }
+                formatted_r.push(ch);
+            }
+
+            new_section.push_str(&format!("\n\n### 3. JSON Encoding/Decoding ({} cols x {} rows)\n\n", c, formatted_r));
+            new_section.push_str("| Metric | Naive | Idiomatic |\n");
+            new_section.push_str("| :--- | :---: | :---: |\n");
+            new_section.push_str(&format!("| **Creation Time** | {} | {} |\n", format_ms(n.get("creationTimeMs")), format_ms(i.get("creationTimeMs"))));
+            new_section.push_str(&format!("| **Memory Used (Heap)** | {} | {} |\n", format_mb(n.get("memoryUsedMB")), format_mb(i.get("memoryUsedMB"))));
+            new_section.push_str(&format!("| **JSON Encoding Time** | {} | {} |\n", format_ms(n.get("jsonEncodeTimeMs")), format_ms(i.get("jsonEncodeTimeMs"))));
+            new_section.push_str(&format!("| **JSON Decoding Time** | {} | {} |\n", format_ms(n.get("jsonDecodeTimeMs")), format_ms(i.get("jsonDecodeTimeMs"))));
+            new_section.push_str(&format!("| **JSON File Write Time** | {} | {} |\n", format_ms(n.get("jsonFileWriteTimeMs")), format_ms(i.get("jsonFileWriteTimeMs"))));
+            new_section.push_str(&format!("| **JSON File Read Time** | {} | {} |\n", format_ms(n.get("jsonFileReadTimeMs")), format_ms(i.get("jsonFileReadTimeMs"))));
+            new_section.push_str(&format!("| **JSON File Decode Time** | {} | {} |\n", format_ms(n.get("jsonFileDecodeTimeMs")), format_ms(i.get("jsonFileDecodeTimeMs"))));
+        }
+    }
+
     new_section.push_str("\n<!-- BENCHMARK_RESULTS_END -->");
 
     let mut readme_content = fs::read_to_string(readme_path).unwrap_or_default();

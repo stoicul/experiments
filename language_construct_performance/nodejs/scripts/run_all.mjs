@@ -15,10 +15,8 @@ const objectsScripts = [
   ];
 
 const jsonScripts = [
-    'scripts/json_encoding_plain_naive.mjs',
-    'scripts/json_encoding_plain_idiomatic.mjs',
-    'scripts/json_encoding_value_naive.mjs',
-    'scripts/json_encoding_value_idiomatic.mjs'
+    'scripts/json_encoding_naive.mjs',
+    'scripts/json_encoding_idiomatic.mjs',
   ];
 
 let scripts = [];

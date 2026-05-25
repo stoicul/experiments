@@ -1,6 +1,7 @@
-import { benchmarkStats, saveStats } from "./benchmark_utils";
+import { benchmarkStats, saveStats, forceGC } from "./benchmark_utils.mjs";
+import * as fs from "fs";
 
-function createPlainObject(index: number) {
+function createPlainObject(index) {
   return {
     label: "user-dev-test-" + index,
     id: "u." + (16406 + index),
@@ -40,7 +41,7 @@ function createPlainObject(index: number) {
   };
 }
 
-const stats: Record<string, any> = {};
+const stats = {};
 
 async function runBenchmark() {
   const columns = 3;
@@ -60,7 +61,7 @@ async function runBenchmark() {
     }
   }, true);
 
-  let encodedJSON: string;
+  let encodedJSON;
 
   console.log("\n--- JSON ENCODING ---");
   benchmarkStats("JSON Encoding", stats, "jsonEncodeTimeMs", () => {
@@ -69,21 +70,46 @@ async function runBenchmark() {
 
   console.log("\n--- JSON DECODING ---");
   benchmarkStats("JSON Decoding", stats, "jsonDecodeTimeMs", () => {
-    const decoded = JSON.parse(encodedJSON!);
+    const decoded = JSON.parse(encodedJSON);
   }, true);
 
+  
+  console.log("\n--- JSON FILE WRITE ---");
+  benchmarkStats("JSON File Write", stats, "jsonFileWriteTimeMs", () => {
+    fs.writeFileSync("data/test_dump.json", encodedJSON);
+  }, true);
+
+  let readJSON;
+  console.log("\n--- JSON FILE READ ---");
+  benchmarkStats("JSON File Read", stats, "jsonFileReadTimeMs", () => {
+    readJSON = fs.readFileSync("data/test_dump.json", "utf-8");
+  }, true);
+
+  console.log("\n--- JSON FILE DECODE ---");
+  benchmarkStats("JSON File Decode", stats, "jsonFileDecodeTimeMs", () => {
+    const decoded = JSON.parse(readJSON);
+  }, true);
+
+    if (fs.existsSync("data/test_dump.json")) fs.unlinkSync("data/test_dump.json");
   // Clear memory
-  twoDArray = null as any;
-  encodedJSON = null as any;
-  Bun.gc(true);
+  twoDArray = null;
+  encodedJSON = null;
+  forceGC();
 
   // Save Stats
   import("fs").then(fs => {
     import("path").then(path => {
       if (!fs.existsSync("data")) fs.mkdirSync("data");
-      const jsonStats = { columns, rows, stats };
-      fs.writeFileSync(path.join("data", "stats_json_plain_idiomatic.json"), JSON.stringify(jsonStats, null, 2));
-      console.log("\nSaved json stats to data/stats_json_plain_idiomatic.json");
+      const statsPath = "data/stats_json.json";
+      let jsonStats = { columns, rows, stats: {} };
+      if (fs.existsSync(statsPath)) {
+        try { jsonStats = JSON.parse(fs.readFileSync(statsPath, "utf-8")); } catch(e) {}
+      }
+      jsonStats["naive"] = stats;
+      jsonStats.columns = columns;
+      jsonStats.rows = rows;
+      fs.writeFileSync(statsPath, JSON.stringify(jsonStats, null, 2));
+      console.log("\nSaved json stats to data/stats_json.json");
     });
   });
 }

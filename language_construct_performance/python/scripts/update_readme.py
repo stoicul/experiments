@@ -77,44 +77,6 @@ def run():
         new_section += f"| **Filtering Time** | {format_ms(get_stat(stats_var, 'plain object naive', 'filterTimeMs'))} | {format_ms(get_stat(stats_var, 'plain object idiomatic', 'filterTimeMs'))} | {format_ms(get_stat(stats_var, 'value object naive', 'filterTimeMs'))} | {format_ms(get_stat(stats_var, 'value object idiomatic', 'filterTimeMs'))} |\n"
         new_section += f"| **Mutation Time** | {format_ms(get_stat(stats_var, 'plain object naive', 'mutationTimeMs'))} | {format_ms(get_stat(stats_var, 'plain object idiomatic', 'mutationTimeMs'))} | {format_ms(get_stat(stats_var, 'value object naive', 'mutationTimeMs'))} | {format_ms(get_stat(stats_var, 'value object idiomatic', 'mutationTimeMs'))} |\n"
         new_section += f"| **Delete Property Time** | {format_ms(get_stat(stats_var, 'plain object naive', 'deletePropertyTimeMs'))} | {format_ms(get_stat(stats_var, 'plain object idiomatic', 'deletePropertyTimeMs'))} | {format_ms(get_stat(stats_var, 'value object naive', 'deletePropertyTimeMs'))} | {format_ms(get_stat(stats_var, 'value object idiomatic', 'deletePropertyTimeMs'))} |\n"
-
-
-    # Add JSON Decoding
-    def load_json_stat(filename):
-        path = os.path.join(base_dir, 'data', filename)
-        if os.path.exists(path):
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except Exception:
-                pass
-        return {}
-
-    data_pn = load_json_stat('stats_json_plain_naive.json')
-    data_pi = load_json_stat('stats_json_plain_idiomatic.json')
-    data_vn = load_json_stat('stats_json_value_naive.json')
-    data_vi = load_json_stat('stats_json_value_idiomatic.json')
-
-    json_rows, json_cols = 0, 0
-    if data_pn:
-        json_rows = data_pn.get('rows', 0)
-        json_cols = data_pn.get('columns', 0)
-
-    if data_pn or data_pi or data_vn or data_vi:
-        new_section += f"\n### 3. JSON Encoding/Decoding ({json_cols} cols x {json_rows:,} rows)\n\n"
-        new_section += "| Metric | Plain Object (Naive) | Plain Object (Idiomatic) | Value Object (Naive) | Value Object (Idiomatic) |\n"
-        new_section += "| :--- | :---: | :---: | :---: | :---: |\n"
-        
-        s_pn = data_pn.get('stats', {})
-        s_pi = data_pi.get('stats', {})
-        s_vn = data_vn.get('stats', {})
-        s_vi = data_vi.get('stats', {})
-        
-        new_section += f"| **Creation Time** | {format_ms(s_pn.get('creationTimeMs', 0))} | {format_ms(s_pi.get('creationTimeMs', 0))} | {format_ms(s_vn.get('creationTimeMs', 0))} | {format_ms(s_vi.get('creationTimeMs', 0))} |\n"
-        new_section += f"| **Memory Used (Heap)** | {format_mb(s_pn.get('memoryUsedMB', 0))} | {format_mb(s_pi.get('memoryUsedMB', 0))} | {format_mb(s_vn.get('memoryUsedMB', 0))} | {format_mb(s_vi.get('memoryUsedMB', 0))} |\n"
-        new_section += f"| **JSON Encoding Time** | {format_ms(s_pn.get('jsonEncodeTimeMs', 0))} | {format_ms(s_pi.get('jsonEncodeTimeMs', 0))} | {format_ms(s_vn.get('jsonEncodeTimeMs', 0))} | {format_ms(s_vi.get('jsonEncodeTimeMs', 0))} |\n"
-        new_section += f"| **JSON Decoding Time** | {format_ms(s_pn.get('jsonDecodeTimeMs', 0))} | {format_ms(s_pi.get('jsonDecodeTimeMs', 0))} | {format_ms(s_vn.get('jsonDecodeTimeMs', 0))} | {format_ms(s_vi.get('jsonDecodeTimeMs', 0))} |\n"
-
     new_section += "\n<!-- BENCHMARK_RESULTS_END -->"
 
     readme_content = ""

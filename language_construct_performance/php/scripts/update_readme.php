@@ -82,6 +82,28 @@ function run()
         $newSection .= sprintf("| **Delete Property Time** | %s | %s | %s |\n", formatMS($statsVar['plain object']['deletePropertyTimeMs'] ?? 0), formatMS($statsVar['value object']['deletePropertyTimeMs'] ?? 0), formatMS($statsVar['value object minimal']['deletePropertyTimeMs'] ?? 0));
     }
 
+    
+    $statsJsonPath = __DIR__ . "/../data/stats_json.json";
+    if (file_exists($statsJsonPath)) {
+        $dataJson = json_decode(file_get_contents($statsJsonPath), true);
+        if (is_array($dataJson)) {
+            $r = $dataJson['rows'] ?? 0;
+            $c = $dataJson['columns'] ?? 0;
+            $n = $dataJson['naive'] ?? [];
+            $i = $dataJson['idiomatic'] ?? [];
+            $newSection .= "\n\n### 3. JSON Encoding/Decoding ($c cols x " . number_format($r) . " rows)\n\n";
+            $newSection .= "| Metric | Naive | Idiomatic |\n";
+            $newSection .= "| :--- | :---: | :---: |\n";
+            $newSection .= "| **Creation Time** | " . formatMS($n['creationTimeMs'] ?? 0) . " | " . formatMS($i['creationTimeMs'] ?? 0) . " |\n";
+            $newSection .= "| **Memory Used (Heap)** | " . formatMB($n['memoryUsedMB'] ?? 0) . " | " . formatMB($i['memoryUsedMB'] ?? 0) . " |\n";
+            $newSection .= "| **JSON Encoding Time** | " . formatMS($n['jsonEncodeTimeMs'] ?? 0) . " | " . formatMS($i['jsonEncodeTimeMs'] ?? 0) . " |\n";
+            $newSection .= "| **JSON Decoding Time** | " . formatMS($n['jsonDecodeTimeMs'] ?? 0) . " | " . formatMS($i['jsonDecodeTimeMs'] ?? 0) . " |\n";
+            $newSection .= "| **JSON File Write Time** | " . formatMS($n['jsonFileWriteTimeMs'] ?? 0) . " | " . formatMS($i['jsonFileWriteTimeMs'] ?? 0) . " |\n";
+            $newSection .= "| **JSON File Read Time** | " . formatMS($n['jsonFileReadTimeMs'] ?? 0) . " | " . formatMS($i['jsonFileReadTimeMs'] ?? 0) . " |\n";
+            $newSection .= "| **JSON File Decode Time** | " . formatMS($n['jsonFileDecodeTimeMs'] ?? 0) . " | " . formatMS($i['jsonFileDecodeTimeMs'] ?? 0) . " |\n";
+        }
+    }
+
     $newSection .= "\n<!-- BENCHMARK_RESULTS_END -->";
 
     $readmeContent = "";

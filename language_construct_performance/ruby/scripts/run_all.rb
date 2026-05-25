@@ -13,10 +13,8 @@ puts "Running benchmarks (group: #{group}) sequentially in isolated processes...
   ]
 
   json_scripts = [
-    'scripts/json_encoding_plain_naive.rb',
-    'scripts/json_encoding_plain_idiomatic.rb',
-    'scripts/json_encoding_value_naive.rb',
-    'scripts/json_encoding_value_idiomatic.rb'
+    'scripts/json_encoding_naive.rb',
+    'scripts/json_encoding_idiomatic.rb',
   ]
 
 if group == "objects"

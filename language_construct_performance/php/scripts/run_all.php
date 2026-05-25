@@ -17,10 +17,8 @@ $objects_scripts = [
 ];
 
 $json_scripts = [
-    'scripts/json_encoding_plain_naive.php',
-    'scripts/json_encoding_plain_idiomatic.php',
-    'scripts/json_encoding_value_naive.php',
-    'scripts/json_encoding_value_idiomatic.php'
+    'scripts/json_encoding_naive.php',
+    'scripts/json_encoding_idiomatic.php',
 ];
 
 $scripts = [];

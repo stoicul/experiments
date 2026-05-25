@@ -84,6 +84,28 @@ Here are the actual measured results from running the isolated benchmark suite u
 | **Delete Property Time** | ${formatMS(statsVar["plain object"].deletePropertyTimeMs)} | ${formatMS(statsVar["value object"].deletePropertyTimeMs)} | ${formatMS(statsVar["value object minimal"].deletePropertyTimeMs)} |`;
   }
 
+  
+  const statsJsonPath = join(process.cwd(), "data", "stats_json.json");
+  if (existsSync(statsJsonPath)) {
+    try {
+      const dataJson = JSON.parse(readFileSync(statsJsonPath, "utf-8"));
+      const r = dataJson.rows || 0;
+      const c = dataJson.columns || 0;
+      const n = dataJson.naive || {};
+      const i = dataJson.idiomatic || {};
+      newSection += `\n\n### 3. JSON Encoding/Decoding (${c} cols x ${r.toLocaleString()} rows)\n\n`;
+      newSection += `| Metric | Naive | Idiomatic |\n`;
+      newSection += `| :--- | :---: | :---: |\n`;
+      newSection += `| **Creation Time** | ${formatMS(n.creationTimeMs || 0)} | ${formatMS(i.creationTimeMs || 0)} |\n`;
+      newSection += `| **Memory Used (Heap)** | ${formatMB(n.memoryUsedMB || 0)} | ${formatMB(i.memoryUsedMB || 0)} |\n`;
+      newSection += `| **JSON Encoding Time** | ${formatMS(n.jsonEncodeTimeMs || 0)} | ${formatMS(i.jsonEncodeTimeMs || 0)} |\n`;
+      newSection += `| **JSON Decoding Time** | ${formatMS(n.jsonDecodeTimeMs || 0)} | ${formatMS(i.jsonDecodeTimeMs || 0)} |\n`;
+      newSection += `| **JSON File Write Time** | ${formatMS(n.jsonFileWriteTimeMs || 0)} | ${formatMS(i.jsonFileWriteTimeMs || 0)} |\n`;
+      newSection += `| **JSON File Read Time** | ${formatMS(n.jsonFileReadTimeMs || 0)} | ${formatMS(i.jsonFileReadTimeMs || 0)} |\n`;
+      newSection += `| **JSON File Decode Time** | ${formatMS(n.jsonFileDecodeTimeMs || 0)} | ${formatMS(i.jsonFileDecodeTimeMs || 0)} |\n`;
+    } catch (e) {}
+  }
+
   newSection += `\n<!-- BENCHMARK_RESULTS_END -->`;
 
   let readmeContent = readFileSync(readmePath, "utf-8");

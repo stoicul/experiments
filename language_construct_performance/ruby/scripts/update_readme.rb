@@ -84,6 +84,29 @@ Here are the actual measured results from running the isolated benchmark suite u
 | **Delete Property Time** | #{format_ms(stats_var['plain object']['deletePropertyTimeMs'])} | #{format_ms(stats_var['value object']['deletePropertyTimeMs'])} | #{format_ms(stats_var['value object minimal']['deletePropertyTimeMs'])} |"
   end
 
+  
+  stats_json_path = File.join(base_dir, 'data', 'stats_json.json')
+  if File.exist?(stats_json_path)
+    begin
+      data_json = JSON.parse(File.read(stats_json_path))
+      r = data_json['rows'] || 0
+      c = data_json['columns'] || 0
+      n = data_json['naive'] || {}
+      i = data_json['idiomatic'] || {}
+      new_section += "\n\n### 3. JSON Encoding/Decoding (#{c} cols x #{r.to_s.reverse.gsub(/...(?=.)/,'\&,').reverse} rows)\n\n"
+      new_section += "| Metric | Naive | Idiomatic |\n"
+      new_section += "| :--- | :---: | :---: |\n"
+      new_section += "| **Creation Time** | #{format_ms(n['creationTimeMs'] || 0)} | #{format_ms(i['creationTimeMs'] || 0)} |\n"
+      new_section += "| **Memory Used (Heap)** | #{format_mb(n['memoryUsedMB'] || 0)} | #{format_mb(i['memoryUsedMB'] || 0)} |\n"
+      new_section += "| **JSON Encoding Time** | #{format_ms(n['jsonEncodeTimeMs'] || 0)} | #{format_ms(i['jsonEncodeTimeMs'] || 0)} |\n"
+      new_section += "| **JSON Decoding Time** | #{format_ms(n['jsonDecodeTimeMs'] || 0)} | #{format_ms(i['jsonDecodeTimeMs'] || 0)} |\n"
+      new_section += "| **JSON File Write Time** | #{format_ms(n['jsonFileWriteTimeMs'] || 0)} | #{format_ms(i['jsonFileWriteTimeMs'] || 0)} |\n"
+      new_section += "| **JSON File Read Time** | #{format_ms(n['jsonFileReadTimeMs'] || 0)} | #{format_ms(i['jsonFileReadTimeMs'] || 0)} |\n"
+      new_section += "| **JSON File Decode Time** | #{format_ms(n['jsonFileDecodeTimeMs'] || 0)} | #{format_ms(i['jsonFileDecodeTimeMs'] || 0)} |\n"
+    rescue
+    end
+  end
+
   new_section += "\n<!-- BENCHMARK_RESULTS_END -->"
 
   readme_content = File.read(readme_path)

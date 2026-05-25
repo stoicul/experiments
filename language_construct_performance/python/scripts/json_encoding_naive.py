@@ -71,6 +71,28 @@ def run_benchmark():
         decoded = json.loads(encoded_json[0])
     benchmark_stats("JSON Decoding", stats, "jsonDecodeTimeMs", json_decode, track_memory=True)
     
+    
+    print("\n--- JSON FILE WRITE ---")
+    def json_file_write():
+        with open(os.path.join("data", "test_dump.json"), "w") as f:
+            f.write(encoded_json[0])
+    benchmark_stats("JSON File Write", stats, "jsonFileWriteTimeMs", json_file_write, track_memory=True)
+
+    read_json = [None]
+    print("\n--- JSON FILE READ ---")
+    def json_file_read():
+        with open(os.path.join("data", "test_dump.json"), "r") as f:
+            read_json[0] = f.read()
+    benchmark_stats("JSON File Read", stats, "jsonFileReadTimeMs", json_file_read, track_memory=True)
+
+    print("\n--- JSON FILE DECODE ---")
+    def json_file_decode():
+        decoded = json.loads(read_json[0])
+    benchmark_stats("JSON File Decode", stats, "jsonFileDecodeTimeMs", json_file_decode, track_memory=True)
+
+    if os.path.exists(os.path.join("data", "test_dump.json")):
+        os.remove(os.path.join("data", "test_dump.json"))
+
     # Clear memory
     two_d_array.clear()
     encoded_json.clear()
@@ -78,14 +100,19 @@ def run_benchmark():
     # Save Stats
     if not os.path.exists("data"):
         os.makedirs("data")
-    json_stats = {
-        "columns": columns,
-        "rows": rows,
-        "stats": stats
-    }
-    with open(os.path.join("data", "stats_json_plain_idiomatic.json"), "w") as f:
-        json.dump(json_stats, f, indent=2)
-    print("\nSaved json stats to data/stats_json_plain_idiomatic.json")
+    stats_file = os.path.join("data", "stats_json.json")
+    all_stats = {"columns": columns, "rows": rows}
+    if os.path.exists(stats_file):
+        try:
+            with open(stats_file, "r") as f:
+                all_stats.update(json.load(f))
+        except: pass
+    all_stats["naive"] = stats
+    all_stats["columns"] = columns
+    all_stats["rows"] = rows
+    with open(stats_file, "w") as f:
+        json.dump(all_stats, f, indent=2)
+    print("\nSaved json stats to data/stats_json.json")
 
 if __name__ == "__main__":
     try:

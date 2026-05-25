@@ -137,6 +137,43 @@ func main() {
 		newSection += fmt.Sprintf("| **Delete Property Time** | %s | %s | %s |\n", formatMS(po["deletePropertyTimeMs"]), formatMS(vo["deletePropertyTimeMs"]), formatMS(vom["deletePropertyTimeMs"]))
 	}
 
+	
+	statsJsonPath := filepath.Join("data", "stats_json.json")
+	if b, err := os.ReadFile(statsJsonPath); err == nil {
+		var dataJson map[string]interface{}
+		if err := json.Unmarshal(b, &dataJson); err == nil {
+			r := 0
+			c := 0
+			if dataJson["rows"] != nil { r = int(dataJson["rows"].(float64)) }
+			if dataJson["columns"] != nil { c = int(dataJson["columns"].(float64)) }
+			n := map[string]interface{}{}
+			i := map[string]interface{}{}
+			if dataJson["naive"] != nil { n = dataJson["naive"].(map[string]interface{}) }
+			if dataJson["idiomatic"] != nil { i = dataJson["idiomatic"].(map[string]interface{}) }
+            
+            sr := strconv.Itoa(r)
+            sNum := sr
+            var formattedR string
+            for idx, ch := range sNum {
+                if idx > 0 && (len(sNum)-idx)%3 == 0 {
+                    formattedR += ","
+                }
+                formattedR += string(ch)
+            }
+			
+			newSection += fmt.Sprintf("\n\n### 3. JSON Encoding/Decoding (%d cols x %s rows)\n\n", c, formattedR)
+			newSection += "| Metric | Naive | Idiomatic |\n"
+			newSection += "| :--- | :---: | :---: |\n"
+			newSection += fmt.Sprintf("| **Creation Time** | %s | %s |\n", formatMS(n["creationTimeMs"]), formatMS(i["creationTimeMs"]))
+			newSection += fmt.Sprintf("| **Memory Used (Heap)** | %s | %s |\n", formatMB(n["memoryUsedMB"]), formatMB(i["memoryUsedMB"]))
+			newSection += fmt.Sprintf("| **JSON Encoding Time** | %s | %s |\n", formatMS(n["jsonEncodeTimeMs"]), formatMS(i["jsonEncodeTimeMs"]))
+			newSection += fmt.Sprintf("| **JSON Decoding Time** | %s | %s |\n", formatMS(n["jsonDecodeTimeMs"]), formatMS(i["jsonDecodeTimeMs"]))
+			newSection += fmt.Sprintf("| **JSON File Write Time** | %s | %s |\n", formatMS(n["jsonFileWriteTimeMs"]), formatMS(i["jsonFileWriteTimeMs"]))
+			newSection += fmt.Sprintf("| **JSON File Read Time** | %s | %s |\n", formatMS(n["jsonFileReadTimeMs"]), formatMS(i["jsonFileReadTimeMs"]))
+			newSection += fmt.Sprintf("| **JSON File Decode Time** | %s | %s |\n", formatMS(n["jsonFileDecodeTimeMs"]), formatMS(i["jsonFileDecodeTimeMs"]))
+		}
+	}
+
 	newSection += "\n<!-- BENCHMARK_RESULTS_END -->"
 
 	b, _ := os.ReadFile(readmePath)

@@ -35,10 +35,8 @@ fn main() {
     ];
 
     let json_scripts = vec![
-        "json_encoding_plain_naive",
-        "json_encoding_plain_idiomatic",
-        "json_encoding_value_naive",
-        "json_encoding_value_idiomatic",
+        "json_encoding_naive",
+        "json_encoding_idiomatic",
     ];
 
     let scripts = match group.as_str() {

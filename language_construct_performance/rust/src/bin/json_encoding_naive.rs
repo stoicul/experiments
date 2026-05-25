@@ -88,16 +88,44 @@ fn main() {
         let _decoded: Vec<Vec<HashMap<String, Value>>> = serde_json::from_str(&encoded_json).unwrap();
     });
 
+    
+    println!("\n--- JSON FILE WRITE ---");
+    benchmark_stats("JSON File Write", &mut stats, "jsonFileWriteTimeMs", true, &GLOBAL, || {
+        fs::write("data/test_dump.json", &encoded_json).unwrap();
+    });
+
+    let mut read_json = String::new();
+    println!("\n--- JSON FILE READ ---");
+    benchmark_stats("JSON File Read", &mut stats, "jsonFileReadTimeMs", true, &GLOBAL, || {
+        read_json = fs::read_to_string("data/test_dump.json").unwrap();
+    });
+
+    println!("\n--- JSON FILE DECODE ---");
+    benchmark_stats("JSON File Decode", &mut stats, "jsonFileDecodeTimeMs", true, &GLOBAL, || {
+        let _decoded: Vec<Vec<HashMap<String, Value>>> = serde_json::from_str(&read_json).unwrap();
+    });
+
+        let _ = fs::remove_file("data/test_dump.json");
     drop(two_d_array);
     drop(encoded_json);
 
     fs::create_dir_all("data").unwrap_or_default();
-    let json_stats = json!({
+    let stats_path = Path::new("data/stats_json.json");
+    let mut all_stats = json!({
         "columns": columns,
         "rows": rows,
-        "stats": stats,
     });
-    let b = serde_json::to_string_pretty(&json_stats).unwrap();
-    fs::write(Path::new("data/stats_json_plain_naive.json"), b).unwrap();
-    println!("\nSaved json stats to data/stats_json_plain_naive.json");
+    if let Ok(content) = fs::read_to_string(stats_path) {
+        if let Ok(Value::Object(mut existing)) = serde_json::from_str(&content) {
+            for (k, v) in existing.into_iter() {
+                all_stats.as_object_mut().unwrap().insert(k, v);
+            }
+        }
+    }
+    all_stats.as_object_mut().unwrap().insert("naive".to_string(), json!(stats));
+    all_stats.as_object_mut().unwrap().insert("columns".to_string(), json!(columns));
+    all_stats.as_object_mut().unwrap().insert("rows".to_string(), json!(rows));
+    let b = serde_json::to_string_pretty(&all_stats).unwrap();
+    fs::write(stats_path, b).unwrap();
+    println!("\nSaved json stats to data/stats_json.json");
 }

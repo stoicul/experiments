@@ -77,6 +77,24 @@ $runBenchmark = function () use (&$stats) {
         $decoded = json_decode($encodedJSON, true);
     }, true);
 
+    
+    echo "\n--- JSON FILE WRITE ---\n";
+    benchmarkStats("JSON File Write", $stats, "jsonFileWriteTimeMs", function () use (&$encodedJSON) {
+        file_put_contents("data/test_dump.json", $encodedJSON);
+    }, true);
+
+    $readJSON = "";
+    echo "\n--- JSON FILE READ ---\n";
+    benchmarkStats("JSON File Read", $stats, "jsonFileReadTimeMs", function () use (&$readJSON) {
+        $readJSON = file_get_contents("data/test_dump.json");
+    }, true);
+
+    echo "\n--- JSON FILE DECODE ---\n";
+    benchmarkStats("JSON File Decode", $stats, "jsonFileDecodeTimeMs", function () use (&$readJSON) {
+        $decoded = json_decode($readJSON, true);
+    }, true);
+
+        if (file_exists("data/test_dump.json")) unlink("data/test_dump.json");
     // Clear memory
     $twoDArray = [];
     $encodedJSON = "";
@@ -86,13 +104,17 @@ $runBenchmark = function () use (&$stats) {
     if (!is_dir("data")) {
         mkdir("data");
     }
-    $jsonStats = [
-        "columns" => $columns,
-        "rows" => $rows,
-        "stats" => $stats
-    ];
-    file_put_contents("data/stats_json_plain_naive.json", json_encode($jsonStats, JSON_PRETTY_PRINT));
-    echo "\nSaved json stats to data/stats_json_plain_naive.json\n";
+    $statsPath = "data/stats_json.json";
+    $allStats = ["columns" => $columns, "rows" => $rows];
+    if (file_exists($statsPath)) {
+        $existing = json_decode(file_get_contents($statsPath), true);
+        if (is_array($existing)) $allStats = array_merge($allStats, $existing);
+    }
+    $allStats["naive"] = $stats;
+    $allStats["columns"] = $columns;
+    $allStats["rows"] = $rows;
+    file_put_contents($statsPath, json_encode($allStats, JSON_PRETTY_PRINT));
+    echo "\nSaved json stats to data/stats_json.json\n";
 };
 
 try {

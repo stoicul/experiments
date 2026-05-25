@@ -66,7 +66,25 @@ benchmark_stats("JSON Decoding", stats, "jsonDecodeTimeMs", track_memory: true) 
   decoded = JSON.parse(encoded_json)
 end
 
-# Clear memory
+
+  puts "\n--- JSON FILE WRITE ---"
+  benchmark_stats("JSON File Write", stats, "jsonFileWriteTimeMs", track_memory: true) do
+    File.write("data/test_dump.json", encoded_json[0])
+  end
+
+  read_json = [nil]
+  puts "\n--- JSON FILE READ ---"
+  benchmark_stats("JSON File Read", stats, "jsonFileReadTimeMs", track_memory: true) do
+    read_json[0] = File.read("data/test_dump.json")
+  end
+
+  puts "\n--- JSON FILE DECODE ---"
+  benchmark_stats("JSON File Decode", stats, "jsonFileDecodeTimeMs", track_memory: true) do
+    decoded = JSON.parse(read_json[0])
+  end
+
+    File.delete("data/test_dump.json") if File.exist?("data/test_dump.json")
+  # Clear memory
 two_d_array.clear
 two_d_array = nil
 encoded_json = nil
@@ -80,5 +98,5 @@ json_stats = {
   rows: rows,
   stats: stats
 }
-File.write("data/stats_json_plain_naive.json", JSON.pretty_generate(json_stats))
-puts "\nSaved json stats to data/stats_json_plain_naive.json"
+File.write("data/stats_json.json", JSON.pretty_generate(json_stats))
+puts "\nSaved json stats to data/stats_json.json"

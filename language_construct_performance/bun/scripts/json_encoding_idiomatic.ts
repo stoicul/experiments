@@ -1,4 +1,5 @@
 import { benchmarkStats, saveStats } from "./benchmark_utils";
+import * as fs from "fs";
 
 function createPlainObject(index: number) {
   return {
@@ -72,6 +73,24 @@ async function runBenchmark() {
     const decoded = JSON.parse(encodedJSON!);
   }, true);
 
+  
+  console.log("\n--- JSON FILE WRITE ---");
+  benchmarkStats("JSON File Write", stats, "jsonFileWriteTimeMs", () => {
+    fs.writeFileSync("data/test_dump.json", encodedJSON);
+  }, true);
+
+  let readJSON;
+  console.log("\n--- JSON FILE READ ---");
+  benchmarkStats("JSON File Read", stats, "jsonFileReadTimeMs", () => {
+    readJSON = fs.readFileSync("data/test_dump.json", "utf-8");
+  }, true);
+
+  console.log("\n--- JSON FILE DECODE ---");
+  benchmarkStats("JSON File Decode", stats, "jsonFileDecodeTimeMs", () => {
+    const decoded = JSON.parse(readJSON);
+  }, true);
+
+    if (fs.existsSync("data/test_dump.json")) fs.unlinkSync("data/test_dump.json");
   // Clear memory
   twoDArray = null as any;
   encodedJSON = null as any;
@@ -81,9 +100,16 @@ async function runBenchmark() {
   import("fs").then(fs => {
     import("path").then(path => {
       if (!fs.existsSync("data")) fs.mkdirSync("data");
-      const jsonStats = { columns, rows, stats };
-      fs.writeFileSync(path.join("data", "stats_json_plain_naive.json"), JSON.stringify(jsonStats, null, 2));
-      console.log("\nSaved json stats to data/stats_json_plain_naive.json");
+      const statsPath = "data/stats_json.json";
+      let jsonStats = { columns, rows, stats: {} };
+      if (fs.existsSync(statsPath)) {
+        try { jsonStats = JSON.parse(fs.readFileSync(statsPath, "utf-8")); } catch(e) {}
+      }
+      jsonStats["idiomatic"] = stats;
+      jsonStats.columns = columns;
+      jsonStats.rows = rows;
+      fs.writeFileSync(statsPath, JSON.stringify(jsonStats, null, 2));
+      console.log("\nSaved json stats to data/stats_json.json");
     });
   });
 }

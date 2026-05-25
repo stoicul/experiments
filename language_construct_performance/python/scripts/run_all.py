@@ -21,10 +21,8 @@ def run_all():
     ]
 
     json_scripts = [
-        'scripts/json_encoding_plain_naive.py',
-        'scripts/json_encoding_plain_idiomatic.py',
-        'scripts/json_encoding_value_naive.py',
-        'scripts/json_encoding_value_idiomatic.py'
+        'scripts/json_encoding_naive.py',
+        'scripts/json_encoding_idiomatic.py',
     ]
 
     if group == "objects":

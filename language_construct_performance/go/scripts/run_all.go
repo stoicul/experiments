@@ -43,10 +43,8 @@ func main() {
 	}
 
 	jsonScripts := []string{
-		"scripts/json_encoding_plain_naive.go",
-		"scripts/json_encoding_plain_idiomatic.go",
-		"scripts/json_encoding_value_naive.go",
-		"scripts/json_encoding_value_idiomatic.go",
+		"scripts/json_encoding_naive.go",
+		"scripts/json_encoding_idiomatic.go",
 	}
 
 	var scripts []string
