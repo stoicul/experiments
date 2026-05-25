@@ -35,7 +35,7 @@ Here are the actual measured results from running the isolated benchmark suite u
 ### 1. Fixed Properties (Uniform Structural Shape)
 
 | Metric | Plain Object (Array) | Value Object | Value Object Minimal |
-| :--- | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: |
 | **Creation Time** | 1,910 ms | 1,542 ms | 1,886 ms |
 | **Memory Used (Heap)** | 1,732 MB (~1.7 GB) | 888 MB (~0.9 GB) | 1,504 MB (~1.5 GB) |
 | **Traversal Time** | 15 ms | 17 ms | 20 ms |
@@ -47,7 +47,7 @@ Here are the actual measured results from running the isolated benchmark suite u
 ### 2. Variable Properties (Polymorphic Shapes)
 
 | Metric | Plain Object (Array) | Value Object | Value Object Minimal |
-| :--- | :---: | :---: | :---: |
+| :--- | :---: | :---: | :---: | :---: |
 | **Creation Time** | 1,002 ms | 1,080 ms | 1,421 ms |
 | **Memory Used (Heap)** | 1,173 MB (~1.1 GB) | 633 MB (~0.6 GB) | 944 MB (~0.9 GB) |
 | **Traversal Time** | 27 ms | 17 ms | 19 ms |
@@ -55,6 +55,19 @@ Here are the actual measured results from running the isolated benchmark suite u
 | **Filtering Time** | 138 ms | 39 ms | 46 ms |
 | **Mutation Time** | 174 ms | 39 ms | 57 ms |
 | **Delete Property Time** | 103 ms | 43 ms | 72 ms |
+
+
+### 3. JSON Encoding/Decoding (3 cols x 50,000 rows)
+
+| Metric | Naive | Idiomatic |
+| :--- | :---: | :---: |
+| **Creation Time** | 193 ms | 199 ms |
+| **Memory Used (Heap)** | 0 MB (~0.0 GB) | 0 MB (~0.0 GB) |
+| **JSON Encoding Time** | 368 ms | 331 ms |
+| **JSON Decoding Time** | 1,516 ms | 1,163 ms |
+| **JSON File Write Time** | 945 ms | 883 ms |
+| **JSON File Read Time** | 339 ms | 336 ms |
+| **JSON File Decode Time** | 949 ms | 903 ms |
 
 <!-- BENCHMARK_RESULTS_END -->
 

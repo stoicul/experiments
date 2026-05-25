@@ -1,4 +1,4 @@
-use serde_json::Value;
+use serde_json::{Value, json};
 use std::fs;
 use std::path::Path;
 
@@ -143,13 +143,13 @@ fn main() {
             new_section.push_str(&format!("\n\n### 3. JSON Encoding/Decoding ({} cols x {} rows)\n\n", c, formatted_r));
             new_section.push_str("| Metric | Naive | Idiomatic |\n");
             new_section.push_str("| :--- | :---: | :---: |\n");
-            new_section.push_str(&format!("| **Creation Time** | {} | {} |\n", format_ms(n.get("creationTimeMs")), format_ms(i.get("creationTimeMs"))));
-            new_section.push_str(&format!("| **Memory Used (Heap)** | {} | {} |\n", format_mb(n.get("memoryUsedMB")), format_mb(i.get("memoryUsedMB"))));
-            new_section.push_str(&format!("| **JSON Encoding Time** | {} | {} |\n", format_ms(n.get("jsonEncodeTimeMs")), format_ms(i.get("jsonEncodeTimeMs"))));
-            new_section.push_str(&format!("| **JSON Decoding Time** | {} | {} |\n", format_ms(n.get("jsonDecodeTimeMs")), format_ms(i.get("jsonDecodeTimeMs"))));
-            new_section.push_str(&format!("| **JSON File Write Time** | {} | {} |\n", format_ms(n.get("jsonFileWriteTimeMs")), format_ms(i.get("jsonFileWriteTimeMs"))));
-            new_section.push_str(&format!("| **JSON File Read Time** | {} | {} |\n", format_ms(n.get("jsonFileReadTimeMs")), format_ms(i.get("jsonFileReadTimeMs"))));
-            new_section.push_str(&format!("| **JSON File Decode Time** | {} | {} |\n", format_ms(n.get("jsonFileDecodeTimeMs")), format_ms(i.get("jsonFileDecodeTimeMs"))));
+            new_section.push_str(&format!("| **Creation Time** | {} | {} |\n", format_ms(n.get("creationTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("creationTimeMs").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **Memory Used (Heap)** | {} | {} |\n", format_mb(n.get("memoryUsedMB").unwrap_or(&empty_obj)), format_mb(i.get("memoryUsedMB").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **JSON Encoding Time** | {} | {} |\n", format_ms(n.get("jsonEncodeTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("jsonEncodeTimeMs").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **JSON Decoding Time** | {} | {} |\n", format_ms(n.get("jsonDecodeTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("jsonDecodeTimeMs").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **JSON File Write Time** | {} | {} |\n", format_ms(n.get("jsonFileWriteTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("jsonFileWriteTimeMs").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **JSON File Read Time** | {} | {} |\n", format_ms(n.get("jsonFileReadTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("jsonFileReadTimeMs").unwrap_or(&empty_obj))));
+            new_section.push_str(&format!("| **JSON File Decode Time** | {} | {} |\n", format_ms(n.get("jsonFileDecodeTimeMs").unwrap_or(&empty_obj)), format_ms(i.get("jsonFileDecodeTimeMs").unwrap_or(&empty_obj))));
         }
     }
 

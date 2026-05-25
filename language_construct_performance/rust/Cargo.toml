@@ -10,51 +10,43 @@ sysinfo = "0.30"
 
 [[bin]]
 name = "plain_obj_naive_fixed_properties"
-path = "src/bin/plain_obj_naive_fixed_properties.rs"
+path = "src/bin/naive/plain_obj_fixed_properties.rs"
 
 [[bin]]
 name = "plain_obj_idiomatic_fixed_properties"
-path = "src/bin/plain_obj_idiomatic_fixed_properties.rs"
+path = "src/bin/idiomatic/plain_obj_fixed_properties.rs"
 
 [[bin]]
 name = "value_obj_naive_fixed_properties"
-path = "src/bin/value_obj_naive_fixed_properties.rs"
+path = "src/bin/naive/value_obj_fixed_properties.rs"
 
 [[bin]]
 name = "value_obj_idiomatic_fixed_properties"
-path = "src/bin/value_obj_idiomatic_fixed_properties.rs"
+path = "src/bin/idiomatic/value_obj_fixed_properties.rs"
 
 [[bin]]
 name = "plain_obj_naive_variable_properties"
-path = "src/bin/plain_obj_naive_variable_properties.rs"
+path = "src/bin/naive/plain_obj_variable_properties.rs"
 
 [[bin]]
 name = "plain_obj_idiomatic_variable_properties"
-path = "src/bin/plain_obj_idiomatic_variable_properties.rs"
+path = "src/bin/idiomatic/plain_obj_variable_properties.rs"
 
 [[bin]]
 name = "value_obj_naive_variable_properties"
-path = "src/bin/value_obj_naive_variable_properties.rs"
+path = "src/bin/naive/value_obj_variable_properties.rs"
 
 [[bin]]
 name = "value_obj_idiomatic_variable_properties"
-path = "src/bin/value_obj_idiomatic_variable_properties.rs"
+path = "src/bin/idiomatic/value_obj_variable_properties.rs"
 
 [[bin]]
-name = "json_encoding_plain_naive"
-path = "src/bin/json_encoding_plain_naive.rs"
+name = "json_encoding_naive"
+path = "src/bin/naive/json_encoding.rs"
 
 [[bin]]
-name = "json_encoding_plain_idiomatic"
-path = "src/bin/json_encoding_plain_idiomatic.rs"
-
-[[bin]]
-name = "json_encoding_value_naive"
-path = "src/bin/json_encoding_value_naive.rs"
-
-[[bin]]
-name = "json_encoding_value_idiomatic"
-path = "src/bin/json_encoding_value_idiomatic.rs"
+name = "json_encoding_idiomatic"
+path = "src/bin/idiomatic/json_encoding.rs"
 
 [[bin]]
 name = "run_all"

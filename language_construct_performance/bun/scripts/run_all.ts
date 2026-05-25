@@ -4,19 +4,19 @@ const group = process.argv[2] || "all";
 console.log(`Running benchmarks (group: ${group}) sequentially in isolated processes...\n`);
 
 const objectsScripts = [
-    'scripts/plain_obj_naive_fixed_properties.ts',
-    'scripts/plain_obj_idiomatic_fixed_properties.ts',
-    'scripts/value_obj_naive_fixed_properties.ts',
-    'scripts/value_obj_idiomatic_fixed_properties.ts',
-    'scripts/plain_obj_naive_variable_properties.ts',
-    'scripts/plain_obj_idiomatic_variable_properties.ts',
-    'scripts/value_obj_naive_variable_properties.ts',
-    'scripts/value_obj_idiomatic_variable_properties.ts'
+    'scripts/naive/plain_obj_fixed_properties.ts',
+    'scripts/idiomatic/plain_obj_fixed_properties.ts',
+    'scripts/naive/value_obj_fixed_properties.ts',
+    'scripts/idiomatic/value_obj_fixed_properties.ts',
+    'scripts/naive/plain_obj_variable_properties.ts',
+    'scripts/idiomatic/plain_obj_variable_properties.ts',
+    'scripts/naive/value_obj_variable_properties.ts',
+    'scripts/idiomatic/value_obj_variable_properties.ts'
   ];
 
 const jsonScripts = [
-    'scripts/json_encoding_naive.ts',
-    'scripts/json_encoding_idiomatic.ts',
+    'scripts/naive/json_encoding.ts',
+    'scripts/idiomatic/json_encoding.ts',
   ];
 
 let scripts = [];

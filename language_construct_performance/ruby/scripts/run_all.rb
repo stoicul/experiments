@@ -2,19 +2,19 @@ group = ARGV[0] || "all"
 puts "Running benchmarks (group: #{group}) sequentially in isolated processes...\n\n"
 
   objects_scripts = [
-    'scripts/plain_obj_naive_fixed_properties.rb',
-    'scripts/plain_obj_idiomatic_fixed_properties.rb',
-    'scripts/value_obj_naive_fixed_properties.rb',
-    'scripts/value_obj_idiomatic_fixed_properties.rb',
-    'scripts/plain_obj_naive_variable_properties.rb',
-    'scripts/plain_obj_idiomatic_variable_properties.rb',
-    'scripts/value_obj_naive_variable_properties.rb',
-    'scripts/value_obj_idiomatic_variable_properties.rb'
+    'scripts/naive/plain_obj_fixed_properties.rb',
+    'scripts/idiomatic/plain_obj_fixed_properties.rb',
+    'scripts/naive/value_obj_fixed_properties.rb',
+    'scripts/idiomatic/value_obj_fixed_properties.rb',
+    'scripts/naive/plain_obj_variable_properties.rb',
+    'scripts/idiomatic/plain_obj_variable_properties.rb',
+    'scripts/naive/value_obj_variable_properties.rb',
+    'scripts/idiomatic/value_obj_variable_properties.rb'
   ]
 
   json_scripts = [
-    'scripts/json_encoding_naive.rb',
-    'scripts/json_encoding_idiomatic.rb',
+    'scripts/naive/json_encoding.rb',
+    'scripts/idiomatic/json_encoding.rb',
   ]
 
 if group == "objects"

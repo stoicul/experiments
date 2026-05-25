@@ -6,19 +6,19 @@ $group = $argv[1] ?? 'all';
 echo "Running PHP benchmarks (group: {$group}) sequentially in isolated processes...\n\n";
 
 $objects_scripts = [
-    'scripts/plain_obj_naive_fixed_properties.php',
-    'scripts/plain_obj_idiomatic_fixed_properties.php',
-    'scripts/value_obj_naive_fixed_properties.php',
-    'scripts/value_obj_idiomatic_fixed_properties.php',
-    'scripts/plain_obj_naive_variable_properties.php',
-    'scripts/plain_obj_idiomatic_variable_properties.php',
-    'scripts/value_obj_naive_variable_properties.php',
-    'scripts/value_obj_idiomatic_variable_properties.php'
+    'scripts/naive/plain_obj_fixed_properties.php',
+    'scripts/idiomatic/plain_obj_fixed_properties.php',
+    'scripts/naive/value_obj_fixed_properties.php',
+    'scripts/idiomatic/value_obj_fixed_properties.php',
+    'scripts/naive/plain_obj_variable_properties.php',
+    'scripts/idiomatic/plain_obj_variable_properties.php',
+    'scripts/naive/value_obj_variable_properties.php',
+    'scripts/idiomatic/value_obj_variable_properties.php'
 ];
 
 $json_scripts = [
-    'scripts/json_encoding_naive.php',
-    'scripts/json_encoding_idiomatic.php',
+    'scripts/naive/json_encoding.php',
+    'scripts/idiomatic/json_encoding.php',
 ];
 
 $scripts = [];
@@ -39,7 +39,7 @@ foreach ($scripts as $script) {
     echo "Running {$script}...\n";
     echo "=========================================\n";
     
-    $cmd = 'php ' . escapeshellarg(__DIR__ . '/' . basename($script));
+    $cmd = 'php ' . escapeshellarg(__DIR__ . '/../' . $script);
     $exitCode = 0;
     
     // Run the command using passthru to stream standard output

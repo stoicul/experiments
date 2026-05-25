@@ -32,19 +32,19 @@ func main() {
 	fmt.Printf("Running benchmarks (group: %s) sequentially in isolated processes...\n\n", group)
 
 	objectsScripts := []string{
-		"scripts/plain_obj_naive_fixed_properties.go",
-		"scripts/plain_obj_idiomatic_fixed_properties.go",
-		"scripts/value_obj_naive_fixed_properties.go",
-		"scripts/value_obj_idiomatic_fixed_properties.go",
-		"scripts/plain_obj_naive_variable_properties.go",
-		"scripts/plain_obj_idiomatic_variable_properties.go",
-		"scripts/value_obj_naive_variable_properties.go",
-		"scripts/value_obj_idiomatic_variable_properties.go",
+		"scripts/naive/plain_obj_fixed_properties.go",
+		"scripts/idiomatic/plain_obj_fixed_properties.go",
+		"scripts/naive/value_obj_fixed_properties.go",
+		"scripts/idiomatic/value_obj_fixed_properties.go",
+		"scripts/naive/plain_obj_variable_properties.go",
+		"scripts/idiomatic/plain_obj_variable_properties.go",
+		"scripts/naive/value_obj_variable_properties.go",
+		"scripts/idiomatic/value_obj_variable_properties.go",
 	}
 
 	jsonScripts := []string{
-		"scripts/json_encoding_naive.go",
-		"scripts/json_encoding_idiomatic.go",
+		"scripts/naive/json_encoding.go",
+		"scripts/idiomatic/json_encoding.go",
 	}
 
 	var scripts []string
