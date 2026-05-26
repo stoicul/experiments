@@ -1,4 +1,4 @@
-FROM php:8.3-cli-alpine
+FROM php:8.3.31-cli-alpine
 
 # Install build dependencies and extension build tools if needed
 RUN docker-php-ext-install opcache

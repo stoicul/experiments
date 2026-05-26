@@ -1,6 +1,6 @@
 services:
   benchmark:
-    image: rust:latest
+    image: rust:1.95.0
     working_dir: /app
     volumes:
       - .:/app

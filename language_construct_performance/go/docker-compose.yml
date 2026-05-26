@@ -1,6 +1,6 @@
 services:
   benchmark:
-    image: golang:latest
+    image: golang:1.26.3
     working_dir: /app
     volumes:
       - .:/app

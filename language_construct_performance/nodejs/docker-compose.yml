@@ -1,6 +1,6 @@
 services:
   benchmark:
-    image: node:latest
+    image: node:26.2.0
     working_dir: /app
     volumes:
       - .:/app
