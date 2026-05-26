@@ -49,10 +49,11 @@ export interface VariablePlainObjectNode {
 // --- FACTORIES ---
 
 function createPlainObject(index: number): VariablePlainObjectNode {
-  const obj: VariablePlainObjectNode = {
+  return {
     label: "user-dev-test-" + index,
     id: "u." + (16406 + index),
     accessTo: ["s.[s3].UACDR", "a.[s3].DARC", "s.[secretsmanager].RACDU", "s.[dynamodb].RCDAU"],
+    edgeTo: index % 2 === 0 ? ["r.392", "r.40", "r.41", "update", "administrator", "create", "delete", "read"] : undefined,
     details: {
       provider: "aws",
       accountId: "568709751681",
@@ -68,26 +69,14 @@ function createPlainObject(index: number): VariablePlainObjectNode {
       cb: "-",
       ub: "-",
       ud: 0,
-      ua: 1772526871591
+      ua: 1772526871591,
+      ut: index % 3 === 0 ? 2 : undefined,
+      ag: index % 4 === 0 ? {
+        s: { t: 167 },
+        a: { t: 3187978, s: { t: 3187978, s: 3149311, r: 42506 } }
+      } : undefined
     }
   };
-
-  if (index % 2 === 0) {
-    obj.edgeTo = ["r.392", "r.40", "r.41", "update", "administrator", "create", "delete", "read"];
-  }
-
-  if (index % 3 === 0) {
-    obj.details.ut = 2;
-  }
-
-  if (index % 4 === 0) {
-    obj.details.ag = {
-      s: { t: 167 },
-      a: { t: 3187978, s: { t: 3187978, s: 3149311, r: 42506 } }
-    };
-  }
-
-  return obj;
 }
 
 // --- BENCHMARK RUNNER ---
@@ -143,7 +132,7 @@ async function runBenchmark() {
   console.log("\n--- DELETE PROPERTY ---");
   benchmarkStats("Delete Property (Plain Idiomatic)", stats, "deletePropertyTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      delete plainArray![i].details.ud;
+      plainArray![i].details.ud = undefined;
     }
   });
 
