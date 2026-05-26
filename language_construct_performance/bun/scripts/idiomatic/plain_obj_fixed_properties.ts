@@ -1,4 +1,21 @@
-import { NUM_ENTRIES, benchmarkStats, saveStats } from "./benchmark_utils";
+/**
+ * Idiomatic Performance Implementation
+ * 
+ * This script uses specific constructs optimized for the JavaScript engine (JSC/V8) used by Bun:
+ * 
+ * 1. Monomorphic Object Shapes (Hidden Classes):
+ *    We define explicit interfaces and initialize all properties upfront. 
+ *    Even if a property is optional, initializing it to `undefined` rather than 
+ *    conditionally adding it later prevents the JS engine from constantly 
+ *    transitioning the object into new Hidden Classes. This keeps inline caches 
+ *    warm, drastically speeding up property access and iteration.
+ * 
+ * 2. Avoiding `delete`:
+ *    Using the `delete` operator deoptimizes object structures, forcing them 
+ *    into a slow "dictionary mode" hash map. We use `obj.prop = undefined` 
+ *    instead to safely clear properties while maintaining the fast path.
+ */
+import { NUM_ENTRIES, benchmarkStats, saveStats } from "../benchmark_utils";
 
 // --- INTERFACES ---
 
@@ -141,7 +158,7 @@ async function runBenchmark() {
   console.log("\n--- DELETE PROPERTY ---");
   benchmarkStats("Delete Property (Plain Idiomatic)", stats, "deletePropertyTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      delete (plainArray![i].details as any).ud;
+      plainArray![i].details.ud = undefined;
     }
   });
 

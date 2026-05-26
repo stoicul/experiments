@@ -1,4 +1,21 @@
-import { NUM_ENTRIES, benchmarkStats, saveStats } from "./benchmark_utils";
+/**
+ * Idiomatic Performance Implementation
+ * 
+ * This script uses specific constructs optimized for the JavaScript engine (JSC/V8) used by Bun:
+ * 
+ * 1. Monomorphic Object Shapes (Hidden Classes):
+ *    We define explicit classes and initialize all properties upfront. 
+ *    Even if a property is optional, initializing it to `undefined` rather than 
+ *    conditionally adding it later prevents the JS engine from constantly 
+ *    transitioning the object into new Hidden Classes. This keeps inline caches 
+ *    warm, drastically speeding up property access and iteration.
+ * 
+ * 2. Avoiding `delete`:
+ *    Using the `delete` operator deoptimizes object structures, forcing them 
+ *    into a slow "dictionary mode" hash map. We use `obj.prop = undefined` 
+ *    instead to safely clear properties while maintaining the fast path.
+ */
+import { NUM_ENTRIES, benchmarkStats, saveStats } from "../benchmark_utils";
 
 // --- VALUE OBJECT CLASSES ---
 
@@ -68,10 +85,8 @@ class DetailsType {
     this.tags = tags; this.mfas = mfas; this.la = la; this.s = s;
     this.cpd = cpd; this.pcb = pcb; this.lld = lld; this.cd = cd; this.cb = cb;
     this.ub = ub; this.ud = ud; this.ua = ua;
-
-    // Conditionally adding properties to force different object shapes (polymorphism)
-    if (ut !== undefined) this.ut = ut;
-    if (ag !== undefined) this.ag = ag;
+    this.ut = ut;
+    this.ag = ag;
   }
 }
 
@@ -88,8 +103,7 @@ class ValueObjectNode {
     this.id = id;
     this.accessTo = accessTo;
     this.details = details;
-
-    if (edgeTo !== undefined) this.edgeTo = edgeTo;
+    this.edgeTo = edgeTo;
   }
 }
 
@@ -172,7 +186,7 @@ async function runBenchmark() {
   console.log("\n--- DELETE PROPERTY ---");
   benchmarkStats("Delete Property (Value Object Idiomatic)", stats, "deletePropertyTimeMs", () => {
     for (let i = 0; i < NUM_ENTRIES; i++) {
-      delete (valueObjArray![i].details as any).ud;
+      (valueObjArray![i].details as any).ud = undefined;
     }
   });
 
