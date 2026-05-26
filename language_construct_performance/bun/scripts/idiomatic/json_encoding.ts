@@ -1,7 +1,53 @@
 import { benchmarkStats, saveStats } from "./benchmark_utils";
 import * as fs from "fs";
 
-function createPlainObject(index: number) {
+// --- INTERFACES ---
+
+export interface AgSubS {
+  t: number;
+  s: number;
+  r: number;
+}
+
+export interface AgA {
+  t: number;
+  s: AgSubS;
+}
+
+export interface Ag {
+  s: { t: number };
+  a: AgA;
+}
+
+export interface Details {
+  provider: string;
+  accountId: string;
+  principal: boolean;
+  tags: string[];
+  mfas: string;
+  la: number;
+  ut: number;
+  s: number;
+  cpd: number;
+  pcb: string;
+  lld: number;
+  cd: number;
+  cb: string;
+  ub: string;
+  ud?: number;
+  ua: number;
+  ag: Ag;
+}
+
+export interface PlainObjectNode {
+  label: string;
+  id: string;
+  edgeTo: string[];
+  accessTo: string[];
+  details: Details;
+}
+
+function createPlainObject(index: number): PlainObjectNode {
   return {
     label: "user-dev-test-" + index,
     id: "u." + (16406 + index),

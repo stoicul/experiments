@@ -1,9 +1,55 @@
 import { NUM_ENTRIES, benchmarkStats, saveStats } from "./benchmark_utils";
 
+// --- INTERFACES ---
+
+export interface AgSubS {
+  t: number;
+  s: number;
+  r: number;
+}
+
+export interface AgA {
+  t: number;
+  s: AgSubS;
+}
+
+export interface Ag {
+  s: { t: number };
+  a: AgA;
+}
+
+export interface VariableDetails {
+  provider: string;
+  accountId: string;
+  principal: boolean;
+  tags: string[];
+  mfas: string;
+  la: number;
+  s: number;
+  cpd: number;
+  pcb: string;
+  lld: number;
+  cd: number;
+  cb: string;
+  ub: string;
+  ud?: number;
+  ua: number;
+  ut?: number;
+  ag?: Ag;
+}
+
+export interface VariablePlainObjectNode {
+  label: string;
+  id: string;
+  accessTo: string[];
+  details: VariableDetails;
+  edgeTo?: string[];
+}
+
 // --- FACTORIES ---
 
-function createPlainObject(index: number): any {
-  const obj: any = {
+function createPlainObject(index: number): VariablePlainObjectNode {
+  const obj: VariablePlainObjectNode = {
     label: "user-dev-test-" + index,
     id: "u." + (16406 + index),
     accessTo: ["s.[s3].UACDR", "a.[s3].DARC", "s.[secretsmanager].RACDU", "s.[dynamodb].RCDAU"],
